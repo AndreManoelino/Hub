@@ -1,0 +1,561 @@
+* {
+  box-sizing: border-box;
+}
+
+.layout {
+  min-height: 100vh;
+  width: 100%;
+  background: #f5f7fa;
+  color: #182230;
+  display: flex;
+  overflow-x: hidden;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.layout-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  background: #101820;
+  color: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 1000;
+
+  transition:
+    width 0.25s ease,
+    transform 0.25s ease;
+
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+.layout-sidebar-open {
+  width: 270px;
+}
+
+.layout-sidebar-closed {
+  width: 82px;
+}
+
+
+/* =====================================================
+   TOPO SIDEBAR
+===================================================== */
+
+.layout-sidebar-top {
+  height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 18px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.layout-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.layout-brand-mark {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  color: #101820;
+
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.layout-brand-name {
+  font-size: 20px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.layout-brand-name span {
+  opacity: 0.55;
+}
+
+
+/* =====================================================
+   BOTÃO ABRIR / FECHAR
+===================================================== */
+
+.layout-toggle {
+  width: 34px;
+  height: 34px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: rgba(255,255,255,0.07);
+  color: #ffffff;
+
+  cursor: pointer;
+
+  font-size: 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s;
+}
+
+.layout-toggle:hover {
+  background: rgba(255,255,255,0.14);
+}
+
+
+/* =====================================================
+   NAVEGAÇÃO
+===================================================== */
+
+.layout-navigation {
+  flex: 1;
+
+  padding: 24px 12px;
+
+  overflow-y: auto;
+}
+
+.layout-menu-section {
+  margin-bottom: 25px;
+}
+
+.layout-menu-title {
+  display: block;
+
+  padding: 0 12px 9px;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+
+  color: rgba(255,255,255,0.38);
+}
+
+.layout-menu-item {
+  width: 100%;
+  height: 48px;
+
+  border: 0;
+  border-radius: 10px;
+
+  margin-bottom: 5px;
+
+  padding: 0 13px;
+
+  background: transparent;
+  color: rgba(255,255,255,0.65);
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.layout-menu-item:hover {
+  background: rgba(255,255,255,0.07);
+  color: #ffffff;
+}
+
+.layout-menu-item-active {
+  background: rgba(255,255,255,0.11);
+  color: #ffffff;
+}
+
+.layout-menu-icon {
+  width: 24px;
+
+  text-align: center;
+
+  font-size: 17px;
+
+  flex-shrink: 0;
+}
+
+.layout-menu-label {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
+/* =====================================================
+   USUÁRIO SIDEBAR
+===================================================== */
+
+.layout-sidebar-bottom {
+  padding: 15px;
+
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.layout-user {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  min-width: 0;
+}
+
+.layout-user-avatar,
+.layout-header-avatar {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  color: #101820;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  flex-shrink: 0;
+}
+
+.layout-user-info {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.layout-user-info strong {
+  font-size: 12px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.layout-user-info span {
+  margin-top: 3px;
+
+  font-size: 10px;
+
+  color: rgba(255,255,255,0.45);
+
+  white-space: nowrap;
+}
+
+.layout-logout {
+  width: 100%;
+  height: 42px;
+
+  margin-top: 12px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.65);
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 12px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.layout-logout:hover {
+  background: rgba(255,255,255,0.1);
+  color: #ffffff;
+}
+
+
+/* =====================================================
+   ÁREA PRINCIPAL
+===================================================== */
+
+.layout-main {
+  min-height: 100vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: margin-left 0.25s ease;
+}
+
+.layout-main-expanded {
+  margin-left: 270px;
+}
+
+.layout-main-collapsed {
+  margin-left: 82px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.layout-header {
+  height: 82px;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #e8ebef;
+
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: sticky;
+  top: 0;
+
+  z-index: 100;
+}
+
+.layout-header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.layout-header-small {
+  display: block;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+
+  color: #8b95a1;
+}
+
+.layout-header h1 {
+  margin: 4px 0 0;
+
+  font-size: 18px;
+  font-weight: 750;
+
+  color: #182230;
+}
+
+.layout-header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.layout-notification {
+  position: relative;
+
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid #e7eaee;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+
+  font-size: 18px;
+}
+
+.layout-notification-dot {
+  position: absolute;
+
+  top: 8px;
+  right: 9px;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #e33d3d;
+}
+
+.layout-header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.layout-header-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-header-user-info strong {
+  font-size: 12px;
+}
+
+.layout-header-user-info span {
+  margin-top: 3px;
+
+  font-size: 10px;
+
+  color: #8b95a1;
+}
+
+.layout-mobile-menu {
+  display: none;
+
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid #e7eaee;
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   CONTEÚDO
+===================================================== */
+
+.layout-content {
+  flex: 1;
+
+  width: 100%;
+
+  padding: 30px;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.layout-footer {
+  min-height: 58px;
+
+  padding: 0 30px;
+
+  background: #ffffff;
+
+  border-top: 1px solid #e8ebef;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #9aa3ad;
+
+  font-size: 10px;
+
+  letter-spacing: 0.4px;
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 900px) {
+
+  .layout-sidebar-open {
+    width: 270px;
+  }
+
+  .layout-sidebar-closed {
+    width: 0;
+    overflow: hidden;
+  }
+
+  .layout-main-expanded,
+  .layout-main-collapsed {
+    margin-left: 0;
+  }
+
+  .layout-header {
+    padding: 0 20px;
+  }
+
+  .layout-mobile-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .layout-content {
+    padding: 20px;
+  }
+
+  .layout-header-user-info {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .layout-header {
+    height: 72px;
+  }
+
+  .layout-header h1 {
+    font-size: 15px;
+  }
+
+  .layout-header-small {
+    font-size: 8px;
+  }
+
+  .layout-notification {
+    display: none;
+  }
+
+  .layout-content {
+    padding: 16px;
+  }
+
+  .layout-footer {
+    padding: 15px 16px;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 5px;
+  }
+
+}

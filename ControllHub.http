@@ -1,0 +1,6 @@
+@ControllHub_HostAddress = http://localhost:5108
+
+GET {{ControllHub_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
