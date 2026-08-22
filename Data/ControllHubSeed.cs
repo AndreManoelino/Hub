@@ -11,12 +11,31 @@ public static class ControllHubSeed
         ControllHubContext context,
         IConfiguration configuration)
     {
-        // Verifica se o AdministradorSistema já existe
+        Console.WriteLine("[SEED] Iniciando...");
+
+        // ==========================================
+        // VERIFICA SE JÁ EXISTE ADMINISTRADOR SISTEMA
+        // ==========================================
+
+        Console.WriteLine("[SEED] Verificando AdministradorSistema...");
+
         var administradorExistente = await context.Usuarios
-            .FirstOrDefaultAsync(x => x.Perfil == PerfilUsuario.AdministradorSistema);
+            .AsNoTracking()
+            .FirstOrDefaultAsync(
+                x => x.Perfil == PerfilUsuario.AdministradorSistema
+            );
 
         if (administradorExistente is not null)
+        {
+            Console.WriteLine("[SEED] AdministradorSistema já existe.");
             return;
+        }
+
+        Console.WriteLine("[SEED] AdministradorSistema não encontrado.");
+
+        // ==========================================
+        // CONFIGURAÇÃO
+        // ==========================================
 
         var configuracao = configuration
             .GetSection("AdministradorInicial");
@@ -36,19 +55,45 @@ public static class ControllHubSeed
             );
         }
 
-        // Verifica CPF
+        Console.WriteLine("[SEED] Configuração do administrador encontrada.");
+
+        // ==========================================
+        // VERIFICA CPF
+        // ==========================================
+
+        Console.WriteLine("[SEED] Verificando CPF...");
+
         var cpfExiste = await context.Usuarios
+            .AsNoTracking()
             .AnyAsync(x => x.CPF == cpf);
 
         if (cpfExiste)
+        {
+            Console.WriteLine("[SEED] CPF já cadastrado.");
             return;
+        }
 
-        // Verifica e-mail
+        // ==========================================
+        // VERIFICA EMAIL
+        // ==========================================
+
+        Console.WriteLine("[SEED] Verificando e-mail...");
+
         var emailExiste = await context.Usuarios
+            .AsNoTracking()
             .AnyAsync(x => x.Email == email);
 
         if (emailExiste)
+        {
+            Console.WriteLine("[SEED] E-mail já cadastrado.");
             return;
+        }
+
+        // ==========================================
+        // CRIA ADMINISTRADOR
+        // ==========================================
+
+        Console.WriteLine("[SEED] Criando AdministradorSistema...");
 
         var administrador = new Usuario
         {
@@ -59,11 +104,13 @@ public static class ControllHubSeed
             Perfil = PerfilUsuario.AdministradorSistema,
             EmpresaId = null,
             Ativo = true,
-            DataCadastro = DateTime.Now
+            DataCadastro = DateTime.UtcNow
         };
 
         context.Usuarios.Add(administrador);
 
         await context.SaveChangesAsync();
+
+        Console.WriteLine("[SEED] AdministradorSistema criado com sucesso.");
     }
 }
