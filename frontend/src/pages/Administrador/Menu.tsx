@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import "./Menu.css";
 import Empresas from "./Empresas/Empresa";
 import Usuario from "./Usuarios/Usuario";
-const API_URL = "http://localhost:5108";
+const API_URL = "https://controllhub.onrender.com";
 
 type TelaAdministrador =
   | "inicio"

@@ -70,7 +70,8 @@ builder.Services.AddCors(options =>
         policy
             .WithOrigins(
                 "http://localhost:5173",
-                "http://localhost:5174"
+                "http://localhost:5174",
+                "https://controllhub.onrender.com"
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -110,7 +111,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("Frontend");
 
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
