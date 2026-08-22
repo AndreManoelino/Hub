@@ -14,21 +14,40 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ===============================
+// DATABASE
+// ===============================
+
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "A ConnectionString 'DefaultConnection' não foi encontrada."
+    );
+}
+
+Console.WriteLine("==========================================");
+Console.WriteLine("[DB] ConnectionString encontrada: True");
+Console.WriteLine($"[DB] Tamanho: {connectionString.Length}");
+Console.WriteLine("==========================================");
+
 builder.Services.AddDbContext<ControllHubContext>(options =>
+{
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    )
-);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        connectionString,
+        npgsqlOptions =>
+        {
+            npgsqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorCodesToAdd: null
+            );
+        }
+    );
+});
 
-Console.WriteLine("==========================================");
-Console.WriteLine($"[DB] ConnectionString encontrada: {!string.IsNullOrWhiteSpace(connectionString)}");
-Console.WriteLine($"[DB] Tamanho: {connectionString?.Length ?? 0}");
-Console.WriteLine("==========================================");
-
-builder.Services.AddDbContext<ControllHubContext>(options =>
-    options.UseNpgsql(connectionString)
-);
 // ===============================
 // SERVICES
 // ===============================
