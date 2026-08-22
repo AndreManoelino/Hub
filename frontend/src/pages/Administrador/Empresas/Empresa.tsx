@@ -304,23 +304,47 @@ export default function Empresas() {
       const dadosParaEnviar = {
         nomeFantasia: formulario.nomeFantasia.trim(),
         razaoSocial: formulario.razaoSocial.trim(),
-        email: formulario.email?.trim() || "",
-        inscricaoEstadual:
-            formulario.inscricaoEstadual?.trim() || "",
-        telefone: formulario.telefone?.trim() || "",
-        celular: formulario.celular?.trim() || "",
-        cep: formulario.cep?.trim() || "",
-        estado: formulario.estado?.trim() || "",
-        cidade: formulario.cidade?.trim() || "",
-        bairro: formulario.bairro?.trim() || "",
-        logradouro: formulario.logradouro?.trim() || "",
-        numero: formulario.numero?.trim() || "",
-        complemento: formulario.complemento?.trim() || "",
-        planoId: Number(formulario.planoId) || 0,
 
-        // A API espera STRING
-        tipoDocumento: String(formulario.tipoDocumento),
-        };
+        tipoDocumento: Number(formulario.tipoDocumento),
+
+        cpf: formulario.cpf?.trim() || "",
+        cnpj: formulario.cnpj?.trim() || "",
+
+        inscricaoEstadual:
+          formulario.inscricaoEstadual?.trim() || "",
+
+        email: formulario.email?.trim() || "",
+
+        telefone:
+          formulario.telefone?.trim() || "",
+
+        celular:
+          formulario.celular?.trim() || "",
+
+        cep:
+          formulario.cep?.trim() || "",
+
+        estado:
+          formulario.estado?.trim() || "",
+
+        cidade:
+          formulario.cidade?.trim() || "",
+
+        bairro:
+          formulario.bairro?.trim() || "",
+
+        logradouro:
+          formulario.logradouro?.trim() || "",
+
+        numero:
+          formulario.numero?.trim() || "",
+
+        complemento:
+          formulario.complemento?.trim() || "",
+
+        planoId:
+          Number(formulario.planoId) || 0,
+      };
 
         if (empresaSelecionada) {
 
