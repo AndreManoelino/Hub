@@ -14,33 +14,71 @@ function App() {
   return (
     <main className="site">
 
+      {/* =========================================================
+          NAVBAR
+      ========================================================= */}
+
       <header className="navbar">
+
         <div className="navbar-inner">
 
           <a href="#inicio" className="logo">
-            <span className="logo-mark">C</span>
-            <span className="logo-name">Controll<span>Hub</span></span>
+
+            <span className="logo-mark">
+              C
+            </span>
+
+            <span className="logo-name">
+              Controll<span>Hub</span>
+            </span>
+
           </a>
 
+
           <nav className="nav-links">
-            <a href="#recursos">Recursos</a>
-            <a href="#como-funciona">Como funciona</a>
-            <a href="#planos">Planos</a>
-            <a href="#sobre">Sobre</a>
+
+            <a href="#recursos">
+              Recursos
+            </a>
+
+            <a href="#como-funciona">
+              Como funciona
+            </a>
+
+            <a href="#clientes">
+              Clientes
+            </a>
+
+            <a href="#planos">
+              Planos
+            </a>
+
+            <a href="#sobre">
+              Sobre
+            </a>
+
           </nav>
+
 
           <div className="nav-actions">
 
-            <a href="/login" className="login-link">
+            <a
+              href="/login"
+              className="login-link"
+            >
               Entrar
             </a>
+
 
             <button
               type="button"
               className="theme-switch"
-              onClick={() => setTemaEscuro((valor) => !valor)}
+              onClick={() =>
+                setTemaEscuro((valor) => !valor)
+              }
               aria-label="Alternar tema"
             >
+
               <span className="theme-icon">
                 {temaEscuro ? '☾' : '☀'}
               </span>
@@ -48,70 +86,112 @@ function App() {
               <span className="theme-toggle">
                 <span className="theme-toggle-ball"></span>
               </span>
+
             </button>
 
-            <a href="#planos" className="button button-primary">
+
+            <a
+              href="#cadastro"
+              className="button button-primary"
+            >
               Começar agora
             </a>
 
           </div>
 
         </div>
+
       </header>
 
 
-      <section id="inicio" className="hero-section">
+      {/* =========================================================
+          HERO
+      ========================================================= */}
+
+      <section
+        id="inicio"
+        className="hero-section"
+      >
 
         <div className="hero-image"></div>
 
         <div className="hero-overlay"></div>
+
 
         <div className="hero-content">
 
           <div className="hero-copy">
 
             <span className="eyebrow">
-              GESTÃO INTELIGENTE PARA ACADEMIAS
+              GESTÃO INTELIGENTE PARA EMPRESAS
             </span>
 
+
             <h1>
-              Sua academia.
+
+              Sua empresa.
               <br />
-              <span>Mais organizada.</span>
+
+              <span>
+                Mais organizada.
+              </span>
+
             </h1>
 
+
             <p className="hero-description">
-              Uma plataforma completa para administrar alunos, professores,
-              treinos, avaliações, pagamentos e toda a operação da sua
-              academia em um único lugar.
+
+              O ControllHub centraliza a gestão da sua empresa em uma única
+              plataforma. Cadastros, pessoas, financeiro, clientes,
+              produtos, estoque, operações e muito mais, tudo conectado.
+
             </p>
+
 
             <div className="hero-actions">
 
               <a
-                href="#planos"
+                href="#cadastro"
                 className="button button-primary button-large"
               >
-                Conhecer os planos
+                Cadastrar minha empresa
               </a>
+
 
               <a
                 href="#recursos"
                 className="button button-glass button-large"
               >
-                Conhecer o sistema
+                Conhecer o ControllHub
               </a>
 
             </div>
 
+
             <div className="hero-features">
-              <span>Gestão</span>
+
+              <span>
+                Gestão
+              </span>
+
               <i></i>
-              <span>Treinos</span>
+
+              <span>
+                Financeiro
+              </span>
+
               <i></i>
-              <span>Financeiro</span>
+
+              <span>
+                Clientes
+              </span>
+
               <i></i>
-              <span>Alunos</span>
+
+              <span>
+                Operação
+              </span>
+
             </div>
 
           </div>
@@ -122,18 +202,31 @@ function App() {
             <div className="hero-stat stat-top">
 
               <div>
-                <span>Alunos ativos</span>
-                <strong>1.248</strong>
-                <small>+12,8% este mês</small>
+
+                <span>
+                  Operações organizadas
+                </span>
+
+                <strong>
+                  100%
+                </strong>
+
+                <small>
+                  Tudo em um único ambiente
+                </small>
+
               </div>
 
+
               <div className="mini-chart">
+
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
+
               </div>
 
             </div>
@@ -142,18 +235,31 @@ function App() {
             <div className="hero-stat stat-bottom">
 
               <div>
-                <span>Receita mensal</span>
-                <strong>R$ 48.720</strong>
-                <small>Pagamentos atualizados</small>
+
+                <span>
+                  Controle financeiro
+                </span>
+
+                <strong>
+                  R$ 48.720
+                </strong>
+
+                <small>
+                  Exemplo demonstrativo
+                </small>
+
               </div>
 
+
               <div className="bars">
+
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
+
               </div>
 
             </div>
@@ -164,29 +270,64 @@ function App() {
 
       </section>
 
+
+      {/* =========================================================
+          NUMBERS
+      ========================================================= */}
 
       <section className="numbers-section">
 
         <div className="numbers-grid">
 
           <div className="number-item">
-            <strong>01</strong>
-            <span>Plataforma completa</span>
+
+            <strong>
+              01
+            </strong>
+
+            <span>
+              Plataforma completa
+            </span>
+
           </div>
 
-          <div className="number-item">
-            <strong>24h</strong>
-            <span>Acesso ao sistema</span>
-          </div>
 
           <div className="number-item">
-            <strong>100%</strong>
-            <span>Gestão online</span>
+
+            <strong>
+              24h
+            </strong>
+
+            <span>
+              Acesso ao sistema
+            </span>
+
           </div>
 
+
           <div className="number-item">
-            <strong>30 dias</strong>
-            <span>Período inicial</span>
+
+            <strong>
+              100%
+            </strong>
+
+            <span>
+              Gestão online
+            </span>
+
+          </div>
+
+
+          <div className="number-item">
+
+            <strong>
+              30 dias
+            </strong>
+
+            <span>
+              Período inicial
+            </span>
+
           </div>
 
         </div>
@@ -194,27 +335,44 @@ function App() {
       </section>
 
 
-      <section id="recursos" className="section resources-section">
+      {/* =========================================================
+          RECURSOS
+      ========================================================= */}
+
+      <section
+        id="recursos"
+        className="section resources-section"
+      >
 
         <div className="section-container">
 
           <div className="section-heading">
 
             <div>
+
               <span className="eyebrow">
                 TUDO CONECTADO
               </span>
 
+
               <h2>
+
                 Uma plataforma criada
                 <br />
-                para a rotina da sua academia.
+
+                para a rotina da sua empresa.
+
               </h2>
+
             </div>
 
+
             <p>
-              O ControllHub reúne as principais áreas da academia em uma
-              experiência simples para gestores, profissionais e alunos.
+
+              O ControllHub reúne as principais áreas da empresa em uma
+              experiência simples para proprietários, gestores, funcionários
+              e clientes.
+
             </p>
 
           </div>
@@ -222,27 +380,37 @@ function App() {
 
           <div className="resources-layout">
 
+
             <article className="feature-card feature-training">
 
               <div className="feature-photo">
+
                 <img
-                  src="/imagens/treino.jpeg"
-                  alt="Treino em academia"
+                  src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=85"
+                  alt="Equipe trabalhando em uma empresa"
                 />
+
               </div>
+
 
               <div className="feature-info">
 
-                <span className="resource-number">01</span>
+                <span className="resource-number">
+                  01
+                </span>
+
 
                 <h3>
-                  Treinos personalizados
+                  Gestão centralizada
                 </h3>
 
+
                 <p>
-                  Crie fichas de treino de acordo com os objetivos do aluno,
-                  equipamentos disponíveis, tempo de sessão e orientação
-                  profissional.
+
+                  Organize as principais informações da sua empresa em um
+                  único ambiente, com acesso rápido aos dados que realmente
+                  importam para sua operação.
+
                 </p>
 
               </div>
@@ -251,14 +419,23 @@ function App() {
 
 
             <article className="resource-card">
-            
-              <span className="resource-number">02</span>
 
-              <h3>Alunos</h3>
+              <span className="resource-number">
+                02
+              </span>
+
+
+              <h3>
+                Clientes
+              </h3>
+
 
               <p>
-                Cadastro completo, histórico, informações pessoais,
-                acompanhamento e relacionamento com cada aluno.
+
+                Cadastre clientes, acompanhe informações, histórico,
+                relacionamento e tudo que sua equipe precisa para prestar
+                um atendimento melhor.
+
               </p>
 
             </article>
@@ -266,13 +443,22 @@ function App() {
 
             <article className="resource-card resource-dark">
 
-              <span className="resource-number">03</span>
+              <span className="resource-number">
+                03
+              </span>
 
-              <h3>Avaliações</h3>
+
+              <h3>
+                Financeiro
+              </h3>
+
 
               <p>
-                Registre avaliações físicas, observações profissionais e
-                histórico de evolução do aluno.
+
+                Acompanhe receitas, despesas, pagamentos, movimentações,
+                valores pendentes e informações importantes para a saúde
+                financeira do negócio.
+
               </p>
 
             </article>
@@ -280,13 +466,21 @@ function App() {
 
             <article className="resource-card">
 
-              <span className="resource-number">04</span>
+              <span className="resource-number">
+                04
+              </span>
 
-              <h3>Financeiro</h3>
+
+              <h3>
+                Produtos e estoque
+              </h3>
+
 
               <p>
-                Controle mensalidades, recebimentos, pagamentos pendentes,
-                planos e movimentações financeiras.
+
+                Controle produtos, entradas, saídas, compras e estoque
+                para evitar perdas e manter sua operação organizada.
+
               </p>
 
             </article>
@@ -294,13 +488,21 @@ function App() {
 
             <article className="resource-card">
 
-              <span className="resource-number">05</span>
+              <span className="resource-number">
+                05
+              </span>
 
-              <h3>Equipe</h3>
+
+              <h3>
+                Equipe
+              </h3>
+
 
               <p>
-                Defina os profissionais da academia e controle exatamente
-                o que cada pessoa pode visualizar e administrar.
+
+                Cadastre funcionários e defina os níveis de acesso para
+                que cada pessoa visualize somente aquilo que precisa.
+
               </p>
 
             </article>
@@ -309,23 +511,32 @@ function App() {
             <article className="feature-card communication-card">
 
               <div className="communication-photo">
+
                 <img
-                  src="/imagens/academia-hero.jpeg"
-                  alt="Interior de academia"
+                  src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85"
+                  alt="Equipe de uma empresa trabalhando"
                 />
+
               </div>
+
 
               <div className="communication-content">
 
-                <span className="resource-number">06</span>
+                <span className="resource-number">
+                  06
+                </span>
+
 
                 <h3>
-                  Comunicação com os alunos
+                  Comunicação e operação
                 </h3>
 
+
                 <p>
-                  Publique avisos sobre feriados, manutenção, mudanças de
-                  horário, eventos e novidades diretamente para seus alunos.
+
+                  Mantenha sua equipe alinhada, registre informações
+                  importantes e acompanhe a operação de forma organizada.
+
                 </p>
 
               </div>
@@ -339,25 +550,40 @@ function App() {
       </section>
 
 
-      <section id="como-funciona" className="section workflow-section">
+      {/* =========================================================
+          COMO FUNCIONA
+      ========================================================= */}
+
+      <section
+        id="como-funciona"
+        className="section workflow-section"
+      >
 
         <div className="workflow-container">
+
 
           <div className="workflow-image">
 
             <img
-              src="/imagens/academia-hero.jpeg"
-              alt="Academia"
+              src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1400&q=85"
+              alt="Equipe trabalhando em uma empresa"
             />
+
 
             <div className="image-overlay-card">
 
-              <span>CONTROLLHUB</span>
+              <span>
+                CONTROLLHUB
+              </span>
+
 
               <strong>
-                Do cadastro
+
+                Da empresa
                 <br />
-                ao treino.
+
+                à operação.
+
               </strong>
 
             </div>
@@ -368,35 +594,53 @@ function App() {
           <div className="workflow-content">
 
             <span className="eyebrow">
-              DO CADASTRO AO TREINO
+              DA EMPRESA À OPERAÇÃO
             </span>
 
+
             <h2>
-              A experiência começa
+
+              A gestão começa
               <br />
-              antes do primeiro treino.
+
+              antes da operação.
+
             </h2>
 
+
             <p>
-              O aluno recebe um link personalizado da academia e pode
-              realizar seu cadastro, solicitar uma avaliação e acompanhar
-              toda sua jornada.
+
+              Cadastre sua empresa, organize sua equipe e tenha uma visão
+              centralizada das informações necessárias para administrar
+              seu negócio.
+
             </p>
 
 
             <div className="steps">
 
+
               <div className="step active">
 
-                <span>01</span>
+                <span>
+                  01
+                </span>
+
 
                 <div>
-                  <h3>Cadastro</h3>
+
+                  <h3>
+                    Cadastro
+                  </h3>
+
 
                   <p>
-                    O aluno informa seus dados e inicia seu relacionamento
-                    com a academia.
+
+                    Cadastre sua empresa e mantenha suas informações
+                    organizadas desde o primeiro acesso.
+
                   </p>
+
                 </div>
 
               </div>
@@ -404,15 +648,25 @@ function App() {
 
               <div className="step">
 
-                <span>02</span>
+                <span>
+                  02
+                </span>
+
 
                 <div>
-                  <h3>Avaliação</h3>
+
+                  <h3>
+                    Equipe
+                  </h3>
+
 
                   <p>
-                    O profissional registra informações e cria o histórico
-                    de acompanhamento.
+
+                    Adicione os usuários e defina os níveis de acesso
+                    de cada pessoa.
+
                   </p>
+
                 </div>
 
               </div>
@@ -420,15 +674,25 @@ function App() {
 
               <div className="step">
 
-                <span>03</span>
+                <span>
+                  03
+                </span>
+
 
                 <div>
-                  <h3>Treino</h3>
+
+                  <h3>
+                    Operação
+                  </h3>
+
 
                   <p>
-                    A ficha é criada de acordo com os objetivos e
-                    necessidades do aluno.
+
+                    Organize clientes, produtos, serviços, estoque,
+                    financeiro e os demais processos.
+
                   </p>
+
                 </div>
 
               </div>
@@ -436,15 +700,25 @@ function App() {
 
               <div className="step">
 
-                <span>04</span>
+                <span>
+                  04
+                </span>
+
 
                 <div>
-                  <h3>Acompanhamento</h3>
+
+                  <h3>
+                    Acompanhamento
+                  </h3>
+
 
                   <p>
-                    O aluno acompanha sua evolução enquanto a equipe mantém
-                    todo o histórico organizado.
+
+                    Tenha uma visão mais clara do negócio e acompanhe
+                    o que está acontecendo em um só lugar.
+
                   </p>
+
                 </div>
 
               </div>
@@ -458,6 +732,10 @@ function App() {
       </section>
 
 
+      {/* =========================================================
+          SEGMENTOS
+      ========================================================= */}
+
       <section className="section permissions-section">
 
         <div className="section-container">
@@ -465,18 +743,26 @@ function App() {
           <div className="section-heading centered">
 
             <span className="eyebrow">
-              CONTROLE DE ACESSO
+              DIFERENTES NEGÓCIOS
             </span>
 
+
             <h2>
-              Cada pessoa vê
+
+              Um sistema que acompanha
               <br />
-              somente o que precisa.
+
+              a realidade da sua empresa.
+
             </h2>
 
+
             <p>
-              O proprietário controla os acessos da equipe e define quais
-              áreas estarão disponíveis para cada profissional.
+
+              O ControllHub foi pensado para ser flexível. Cada negócio
+              possui uma rotina diferente e a plataforma pode organizar
+              diferentes áreas e perfis de operação.
+
             </p>
 
           </div>
@@ -484,19 +770,45 @@ function App() {
 
           <div className="permission-grid">
 
+
             <article className="permission-card owner">
 
-              <span>01</span>
+              <span>
+                01
+              </span>
 
-              <h3>Proprietário</h3>
+
+              <h3>
+                Comércio
+              </h3>
+
 
               <ul>
-                <li>Visão completa da academia</li>
-                <li>Financeiro</li>
-                <li>Equipe</li>
-                <li>Alunos</li>
-                <li>Treinos</li>
-                <li>Configurações</li>
+
+                <li>
+                  Clientes
+                </li>
+
+                <li>
+                  Produtos
+                </li>
+
+                <li>
+                  Estoque
+                </li>
+
+                <li>
+                  Compras
+                </li>
+
+                <li>
+                  Financeiro
+                </li>
+
+                <li>
+                  Equipe
+                </li>
+
               </ul>
 
             </article>
@@ -504,16 +816,38 @@ function App() {
 
             <article className="permission-card">
 
-              <span>02</span>
+              <span>
+                02
+              </span>
 
-              <h3>Profissional</h3>
+
+              <h3>
+                Serviços
+              </h3>
+
 
               <ul>
-                <li>Alunos vinculados</li>
-                <li>Avaliações</li>
-                <li>Treinos</li>
-                <li>Histórico</li>
-                <li>Agenda</li>
+
+                <li>
+                  Clientes
+                </li>
+
+                <li>
+                  Profissionais
+                </li>
+
+                <li>
+                  Agenda
+                </li>
+
+                <li>
+                  Serviços
+                </li>
+
+                <li>
+                  Pagamentos
+                </li>
+
               </ul>
 
             </article>
@@ -521,16 +855,38 @@ function App() {
 
             <article className="permission-card">
 
-              <span>03</span>
+              <span>
+                03
+              </span>
 
-              <h3>Aluno</h3>
+
+              <h3>
+                Academias
+              </h3>
+
 
               <ul>
-                <li>Meu cadastro</li>
-                <li>Meus treinos</li>
-                <li>Minhas avaliações</li>
-                <li>Minha agenda</li>
-                <li>Mensalidades</li>
+
+                <li>
+                  Alunos
+                </li>
+
+                <li>
+                  Professores
+                </li>
+
+                <li>
+                  Treinos
+                </li>
+
+                <li>
+                  Avaliações
+                </li>
+
+                <li>
+                  Mensalidades
+                </li>
+
               </ul>
 
             </article>
@@ -542,48 +898,93 @@ function App() {
       </section>
 
 
+      {/* =========================================================
+          EMPRESA DEMONSTRATIVA
+      ========================================================= */}
+
       <section className="showcase-section">
 
         <div className="showcase-container">
 
+
           <div className="showcase-copy">
 
             <span className="eyebrow">
-              A ACADEMIA NO SEU ESTILO
+              EXEMPLO DE OPERAÇÃO
             </span>
 
+
             <h2>
-              Sua marca também
+
+              A empresa continua sendo
               <br />
-              faz parte da experiência.
+
+              dela. A gestão fica mais simples.
+
             </h2>
 
+
             <p>
-              Cada academia poderá personalizar sua experiência com logo,
-              imagens, informações e conteúdos próprios.
+
+              Imagine uma empresa como a Eldora utilizando o ControllHub
+              para centralizar clientes, equipe, produtos, estoque,
+              financeiro e informações da operação.
+
             </p>
 
 
             <div className="showcase-list">
 
-              <div>
-                <strong>01</strong>
-                <span>Logo da academia</span>
-              </div>
 
               <div>
-                <strong>02</strong>
-                <span>Imagem de apresentação</span>
+
+                <strong>
+                  01
+                </strong>
+
+                <span>
+                  Cadastro da empresa
+                </span>
+
               </div>
 
-              <div>
-                <strong>03</strong>
-                <span>Vídeos e conteúdos</span>
-              </div>
 
               <div>
-                <strong>04</strong>
-                <span>Avisos e comunicados</span>
+
+                <strong>
+                  02
+                </strong>
+
+                <span>
+                  Clientes e equipe
+                </span>
+
+              </div>
+
+
+              <div>
+
+                <strong>
+                  03
+                </strong>
+
+                <span>
+                  Produtos e estoque
+                </span>
+
+              </div>
+
+
+              <div>
+
+                <strong>
+                  04
+                </strong>
+
+                <span>
+                  Financeiro e operação
+                </span>
+
               </div>
 
             </div>
@@ -594,8 +995,8 @@ function App() {
           <div className="showcase-image">
 
             <img
-              src="/imagens/academia-hero.jpeg"
-              alt="Academia personalizada"
+              src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1400&q=85"
+              alt="Equipe em ambiente empresarial"
             />
 
           </div>
@@ -605,9 +1006,407 @@ function App() {
       </section>
 
 
-      <section id="planos" className="section pricing-section">
+      {/* =========================================================
+          CLIENTES / DEPOIMENTOS
+      ========================================================= */}
+
+      <section
+        id="clientes"
+        className="section resources-section"
+      >
 
         <div className="section-container">
+
+
+          <div className="section-heading centered">
+
+            <span className="eyebrow">
+              EXPERIÊNCIA DOS CLIENTES
+            </span>
+
+
+            <h2>
+
+              Gestão pensada para
+              <br />
+
+              quem está no dia a dia.
+
+            </h2>
+
+
+            <p>
+
+              Veja exemplos de como diferentes tipos de negócios podem
+              utilizar o ControllHub para organizar suas operações.
+
+            </p>
+
+          </div>
+
+
+          <div className="resources-layout">
+
+
+            {/* ANA */}
+
+            <article className="feature-card feature-training">
+
+              <div className="feature-photo">
+
+                <img
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=85"
+                  alt="Ana Carolina - imagem demonstrativa"
+                />
+
+              </div>
+
+
+              <div className="feature-info">
+
+                <span className="resource-number">
+                  01
+                </span>
+
+
+                <h3>
+                  Ana Carolina
+                </h3>
+
+
+                <p>
+
+                  “O que eu mais gostei foi conseguir reunir as informações
+                  da empresa em um único lugar. A equipe consegue trabalhar
+                  melhor e eu consigo acompanhar a operação com muito mais
+                  clareza.”
+
+                </p>
+
+
+                <small>
+                  Proprietária de empresa de serviços — exemplo demonstrativo
+                </small>
+
+              </div>
+
+            </article>
+
+
+            {/* ELDORA */}
+
+            <article className="resource-card">
+
+              <span className="resource-number">
+                02
+              </span>
+
+
+              <h3>
+                Eldora
+              </h3>
+
+
+              <p>
+
+                Exemplo de empresa que pode utilizar o ControllHub para
+                acompanhar clientes, equipe, produtos, estoque e financeiro
+                em uma única plataforma.
+
+              </p>
+
+
+              <strong>
+                Operação demonstrativa
+              </strong>
+
+            </article>
+
+
+            {/* ACADEMIA */}
+
+            <article className="resource-card resource-dark">
+
+              <span className="resource-number">
+                03
+              </span>
+
+
+              <h3>
+                Studio Prime Fitness
+              </h3>
+
+
+              <p>
+
+                Uma academia fictícia utilizando o ControllHub para
+                organizar alunos, professores, treinos, avaliações,
+                mensalidades e rotina financeira.
+
+              </p>
+
+
+              <strong>
+                Empresa fictícia para demonstração
+              </strong>
+
+            </article>
+
+
+            {/* SEGUNDO DEPOIMENTO */}
+
+            <article className="resource-card">
+
+              <span className="resource-number">
+                04
+              </span>
+
+
+              <h3>
+                Organização
+              </h3>
+
+
+              <p>
+
+                “Quando as informações ficam espalhadas, administrar o
+                negócio fica mais difícil. A proposta do ControllHub é
+                justamente colocar tudo em um só lugar.”
+
+              </p>
+
+
+              <strong>
+                Depoimento demonstrativo
+              </strong>
+
+            </article>
+
+
+            {/* TERCEIRO */}
+
+            <article className="resource-card">
+
+              <span className="resource-number">
+                05
+              </span>
+
+
+              <h3>
+                Controle
+              </h3>
+
+
+              <p>
+
+                “Ter diferentes níveis de acesso ajuda muito, porque cada
+                funcionário consegue trabalhar com as informações que
+                realmente precisa.”
+
+              </p>
+
+
+              <strong>
+                Depoimento demonstrativo
+              </strong>
+
+            </article>
+
+
+            {/* FOTO CLIENTE */}
+
+            <article className="feature-card communication-card">
+
+              <div className="communication-photo">
+
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=85"
+                  alt="Empreendedora - imagem demonstrativa"
+                />
+
+              </div>
+
+
+              <div className="communication-content">
+
+                <span className="resource-number">
+                  06
+                </span>
+
+
+                <h3>
+                  Espaço para seus clientes
+                </h3>
+
+
+                <p>
+
+                  Aqui você pode colocar posteriormente as fotos reais
+                  dos clientes que utilizarem o ControllHub e seus
+                  respectivos depoimentos.
+
+                </p>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* =========================================================
+          GALERIA DE CLIENTES
+      ========================================================= */}
+
+      <section className="section workflow-section">
+
+        <div className="section-container">
+
+
+          <div className="section-heading centered">
+
+            <span className="eyebrow">
+              HISTÓRIAS REAIS
+            </span>
+
+
+            <h2>
+
+              Coloque aqui as pessoas
+              <br />
+
+              que confiam no seu sistema.
+
+            </h2>
+
+
+            <p>
+
+              Quando você tiver as fotos reais dos clientes, basta substituir
+              os caminhos abaixo pelas imagens deles.
+
+            </p>
+
+          </div>
+
+
+          <div className="permission-grid">
+
+
+            <article className="permission-card owner">
+
+              <img
+                src="/imagens/clientes/cliente-01.jpg"
+                alt="Cliente do ControllHub"
+                style={{
+                  width: '100%',
+                  height: '260px',
+                  objectFit: 'cover',
+                  marginBottom: '24px'
+                }}
+              />
+
+
+              <span>
+                01
+              </span>
+
+
+              <h3>
+                Seu cliente
+              </h3>
+
+
+              <p>
+                “Seu depoimento real entra aqui.”
+              </p>
+
+            </article>
+
+
+            <article className="permission-card">
+
+              <img
+                src="/imagens/clientes/cliente-02.jpg"
+                alt="Cliente do ControllHub"
+                style={{
+                  width: '100%',
+                  height: '260px',
+                  objectFit: 'cover',
+                  marginBottom: '24px'
+                }}
+              />
+
+
+              <span>
+                02
+              </span>
+
+
+              <h3>
+                Seu cliente
+              </h3>
+
+
+              <p>
+                “Seu depoimento real entra aqui.”
+              </p>
+
+            </article>
+
+
+            <article className="permission-card">
+
+              <img
+                src="/imagens/clientes/cliente-03.jpg"
+                alt="Cliente do ControllHub"
+                style={{
+                  width: '100%',
+                  height: '260px',
+                  objectFit: 'cover',
+                  marginBottom: '24px'
+                }}
+              />
+
+
+              <span>
+                03
+              </span>
+
+
+              <h3>
+                Seu cliente
+              </h3>
+
+
+              <p>
+                “Seu depoimento real entra aqui.”
+              </p>
+
+            </article>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* =========================================================
+          PLANOS
+      ========================================================= */}
+
+      <section
+        id="planos"
+        className="section pricing-section"
+      >
+
+        <div className="section-container">
+
 
           <div className="section-heading centered">
 
@@ -615,15 +1414,22 @@ function App() {
               PLANOS
             </span>
 
+
             <h2>
+
               Escolha o tamanho
               <br />
+
               da sua operação.
+
             </h2>
 
+
             <p>
+
               Comece com uma estrutura simples e evolua conforme sua
-              academia cresce.
+              empresa cresce.
+
             </p>
 
           </div>
@@ -631,32 +1437,64 @@ function App() {
 
           <div className="pricing-grid">
 
+
             <article className="pricing-card">
 
               <span className="plan-name">
                 Essencial
               </span>
 
+
               <h3>
+
                 R$ 99
-                <small>/mês</small>
+                <small>
+                  /mês
+                </small>
+
               </h3>
 
+
               <p>
-                Para academias que estão começando a organizar sua operação.
+
+                Para pequenas empresas que estão começando a organizar
+                sua operação.
+
               </p>
+
 
               <div className="plan-divider"></div>
 
+
               <ul>
-                <li>Cadastro de alunos</li>
-                <li>Controle de equipe</li>
-                <li>Agenda</li>
-                <li>Mensalidades</li>
-                <li>Comunicação</li>
+
+                <li>
+                  Cadastro de empresas
+                </li>
+
+                <li>
+                  Clientes
+                </li>
+
+                <li>
+                  Controle de equipe
+                </li>
+
+                <li>
+                  Operação
+                </li>
+
+                <li>
+                  Financeiro
+                </li>
+
               </ul>
 
-              <a href="#cadastro" className="button button-outline">
+
+              <a
+                href="#cadastro"
+                className="button button-outline"
+              >
                 Começar
               </a>
 
@@ -669,31 +1507,66 @@ function App() {
                 MAIS COMPLETO
               </span>
 
+
               <span className="plan-name">
                 Profissional
               </span>
 
+
               <h3>
+
                 R$ 149
-                <small>/mês</small>
+
+                <small>
+                  /mês
+                </small>
+
               </h3>
 
+
               <p>
-                Para academias que querem centralizar toda a gestão.
+
+                Para empresas que querem centralizar toda a gestão.
+
               </p>
+
 
               <div className="plan-divider"></div>
 
+
               <ul>
-                <li>Tudo do plano Essencial</li>
-                <li>Avaliações físicas</li>
-                <li>Fichas de treino</li>
-                <li>Histórico de alunos</li>
-                <li>Relatórios</li>
-                <li>Controle financeiro</li>
+
+                <li>
+                  Tudo do plano Essencial
+                </li>
+
+                <li>
+                  Produtos e estoque
+                </li>
+
+                <li>
+                  Relatórios
+                </li>
+
+                <li>
+                  Controle financeiro
+                </li>
+
+                <li>
+                  Mais usuários
+                </li>
+
+                <li>
+                  Recursos avançados
+                </li>
+
               </ul>
 
-              <a href="#cadastro" className="button button-primary">
+
+              <a
+                href="#cadastro"
+                className="button button-primary"
+              >
                 Começar agora
               </a>
 
@@ -706,25 +1579,52 @@ function App() {
                 Personalizado
               </span>
 
+
               <h3>
                 Sob consulta
               </h3>
 
+
               <p>
-                Para operações maiores que precisam de recursos específicos.
+
+                Para operações maiores que precisam de uma estrutura
+                específica.
+
               </p>
+
 
               <div className="plan-divider"></div>
 
+
               <ul>
-                <li>Estrutura personalizada</li>
-                <li>Mais usuários</li>
-                <li>Mais unidades</li>
-                <li>Recursos avançados</li>
-                <li>Atendimento dedicado</li>
+
+                <li>
+                  Estrutura personalizada
+                </li>
+
+                <li>
+                  Mais usuários
+                </li>
+
+                <li>
+                  Mais unidades
+                </li>
+
+                <li>
+                  Recursos avançados
+                </li>
+
+                <li>
+                  Atendimento dedicado
+                </li>
+
               </ul>
 
-              <a href="#contato" className="button button-outline">
+
+              <a
+                href="#contato"
+                className="button button-outline"
+              >
                 Falar conosco
               </a>
 
@@ -741,22 +1641,27 @@ function App() {
                 EXPERIMENTE
               </span>
 
+
               <h3>
                 30 dias para conhecer o ControllHub.
               </h3>
 
+
               <p>
-                Cadastre sua academia e descubra como organizar sua operação
+
+                Cadastre sua empresa e descubra como organizar sua operação
                 em uma única plataforma.
+
               </p>
 
             </div>
+
 
             <a
               href="#cadastro"
               className="button button-primary button-large"
             >
-              Criar minha academia
+              Cadastrar minha empresa
             </a>
 
           </div>
@@ -766,9 +1671,17 @@ function App() {
       </section>
 
 
-      <section id="sobre" className="section about-section">
+      {/* =========================================================
+          SOBRE
+      ========================================================= */}
+
+      <section
+        id="sobre"
+        className="section about-section"
+      >
 
         <div className="about-container">
+
 
           <div>
 
@@ -776,10 +1689,14 @@ function App() {
               CONTROLLHUB
             </span>
 
+
             <h2>
+
               Tecnologia para quem
               <br />
-              vive a rotina da academia.
+
+              vive a rotina de uma empresa.
+
             </h2>
 
           </div>
@@ -788,15 +1705,29 @@ function App() {
           <div className="about-text">
 
             <p>
-              O ControllHub nasceu para simplificar a gestão de academias,
-              conectando proprietários, profissionais e alunos em uma única
-              experiência.
+
+              O ControllHub nasceu com o objetivo de simplificar a gestão
+              empresarial, conectando pessoas, processos, clientes,
+              financeiro e operação em uma única experiência.
+
             </p>
 
+
             <p>
+
               A plataforma foi pensada para crescer junto com o negócio,
-              permitindo novas funcionalidades, novas unidades e diferentes
-              perfis de acesso sem perder o controle da operação.
+              permitindo novas funcionalidades, diferentes segmentos,
+              novas unidades e diferentes perfis de acesso sem perder
+              o controle da operação.
+
+            </p>
+
+
+            <p>
+
+              A ideia é simples: deixar a empresa trabalhar enquanto o
+              gestor tem uma visão mais clara do que está acontecendo.
+
             </p>
 
           </div>
@@ -806,7 +1737,14 @@ function App() {
       </section>
 
 
-      <section id="cadastro" className="cta-section">
+      {/* =========================================================
+          CADASTRO / CTA
+      ========================================================= */}
+
+      <section
+        id="cadastro"
+        className="cta-section"
+      >
 
         <div className="cta-container">
 
@@ -814,22 +1752,29 @@ function App() {
             COMECE AGORA
           </span>
 
+
           <h2>
+
             Pronto para colocar
             <br />
-            sua academia em ordem?
+
+            sua empresa em ordem?
+
           </h2>
 
+
           <p>
-            Crie sua conta, cadastre sua academia e comece a experimentar
-            o ControllHub.
+
+            Cadastre sua empresa e comece a experimentar o ControllHub.
+
           </p>
+
 
           <a
             href="#planos"
             className="button button-light button-large"
           >
-            Criar minha academia
+            Criar minha empresa
           </a>
 
         </div>
@@ -837,24 +1782,135 @@ function App() {
       </section>
 
 
+      {/* =========================================================
+          CONTATO
+      ========================================================= */}
+
+      <section
+        id="contato"
+        className="section about-section"
+      >
+
+        <div className="about-container">
+
+
+          <div>
+
+            <span className="eyebrow">
+              CONTATO
+            </span>
+
+
+            <h2>
+
+              Vamos conversar sobre
+              <br />
+
+              a sua empresa.
+
+            </h2>
+
+          </div>
+
+
+          <div className="about-text">
+
+            <p>
+
+              Quer conhecer o ControllHub, tirar dúvidas ou conversar
+              sobre uma estrutura personalizada para sua empresa?
+
+            </p>
+
+
+            <p>
+
+              <strong>
+                Proprietário: Andre Manoelino
+              </strong>
+
+            </p>
+
+
+            <p>
+
+              WhatsApp:
+              <br />
+
+              <a
+                href="https://wa.me/5531991070255"
+                target="_blank"
+                rel="noreferrer"
+              >
+                (31) 99107-0255
+              </a>
+
+            </p>
+
+
+            <p>
+
+              E-mails:
+              <br />
+
+              <a href="mailto:andremanoelino@outlook.com">
+                andremanoelino@outlook.com
+              </a>
+
+              <br />
+
+              <a href="mailto:agmphandre@gmail.com">
+                agmphandre@gmail.com
+              </a>
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* =========================================================
+          FOOTER
+      ========================================================= */}
+
       <footer className="footer">
 
         <div className="footer-container">
 
+
           <div className="footer-brand">
 
-            <a href="#inicio" className="logo">
+            <a
+              href="#inicio"
+              className="logo"
+            >
 
-              <span className="logo-mark">C</span>
+              <span className="logo-mark">
+                C
+              </span>
+
 
               <span className="logo-name">
-                Controll<span>Hub</span>
+
+                Controll<span>
+                  Hub
+                </span>
+
               </span>
 
             </a>
 
+
             <p>
-              Gestão inteligente para academias.
+              Gestão inteligente para empresas.
+            </p>
+
+
+            <p>
+              Proprietário: Andre Manoelino
             </p>
 
           </div>
@@ -862,18 +1918,85 @@ function App() {
 
           <div className="footer-links">
 
-            <div>
-              <strong>Produto</strong>
-              <a href="#recursos">Recursos</a>
-              <a href="#planos">Planos</a>
-              <a href="#como-funciona">Como funciona</a>
-            </div>
 
             <div>
-              <strong>Empresa</strong>
-              <a href="#sobre">Sobre</a>
-              <a href="#contato">Contato</a>
-              <a href="/login">Entrar</a>
+
+              <strong>
+                Produto
+              </strong>
+
+
+              <a href="#recursos">
+                Recursos
+              </a>
+
+
+              <a href="#planos">
+                Planos
+              </a>
+
+
+              <a href="#como-funciona">
+                Como funciona
+              </a>
+
+
+              <a href="/login">
+                Entrar
+              </a>
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Empresa
+              </strong>
+
+
+              <a href="#sobre">
+                Sobre
+              </a>
+
+
+              <a href="#clientes">
+                Clientes
+              </a>
+
+
+              <a href="#contato">
+                Contato
+              </a>
+
+            </div>
+
+
+            <div>
+
+              <strong>
+                Contato
+              </strong>
+
+
+              <a
+                href="https://wa.me/5531991070255"
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp
+              </a>
+
+
+              <a href="mailto:andremanoelino@outlook.com">
+                E-mail
+              </a>
+
+
+              <a href="mailto:agmphandre@gmail.com">
+                E-mail alternativo
+              </a>
+
             </div>
 
           </div>
@@ -887,8 +2010,9 @@ function App() {
             © 2026 ControllHub. Todos os direitos reservados.
           </span>
 
+
           <span>
-            Gestão para academias.
+            Gestão inteligente para empresas.
           </span>
 
         </div>
