@@ -19,7 +19,16 @@ builder.Services.AddDbContext<ControllHubContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+Console.WriteLine("==========================================");
+Console.WriteLine($"[DB] ConnectionString encontrada: {!string.IsNullOrWhiteSpace(connectionString)}");
+Console.WriteLine($"[DB] Tamanho: {connectionString?.Length ?? 0}");
+Console.WriteLine("==========================================");
+
+builder.Services.AddDbContext<ControllHubContext>(options =>
+    options.UseNpgsql(connectionString)
+);
 // ===============================
 // SERVICES
 // ===============================
