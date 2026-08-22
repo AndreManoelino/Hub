@@ -56,7 +56,7 @@ public class UsuarioService : IUsuarioService
             Perfil = dto.Perfil,
             EmpresaId = dto.EmpresaId,
             Ativo = true,
-            DataCadastro = DateTime.Now
+            DataCadastro = DateTime.UtcNow
         };
 
         // ========================================================

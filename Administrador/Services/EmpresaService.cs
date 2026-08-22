@@ -93,7 +93,7 @@ public class EmpresaService : IEmpresaService
             Status = StatusEmpresa.Ativa,
             Ativo = true,
 
-            DataCadastro = DateTime.Now
+            DataCadastro = DateTime.UtcNow
         };
 
         _context.Empresas.Add(empresa);
@@ -237,7 +237,7 @@ public class EmpresaService : IEmpresaService
         empresa.PlanoId = dto.PlanoId;
         empresa.TipoDocumento = tipoDocumento;
 
-        empresa.DataAtualizacao = DateTime.Now;
+        empresa.DataAtualizacao = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
@@ -261,7 +261,7 @@ public class EmpresaService : IEmpresaService
 
         empresa.Ativo = false;
         empresa.Status = StatusEmpresa.Suspensa;
-        empresa.DataAtualizacao = DateTime.Now;
+        empresa.DataAtualizacao = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
@@ -285,7 +285,7 @@ public class EmpresaService : IEmpresaService
 
         empresa.Ativo = true;
         empresa.Status = StatusEmpresa.Ativa;
-        empresa.DataAtualizacao = DateTime.Now;
+        empresa.DataAtualizacao = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
