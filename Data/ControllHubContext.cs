@@ -79,12 +79,11 @@ public class ControllHubContext : DbContext
             // CPF da empresa é único quando informado
             entity.HasIndex(e => e.CPF)
                 .IsUnique()
-                .HasFilter("[CPF] IS NOT NULL");
+                .HasFilter("\"CPF\" IS NOT NULL");
 
-            // CNPJ da empresa é único quando informado
             entity.HasIndex(e => e.CNPJ)
                 .IsUnique()
-                .HasFilter("[CNPJ] IS NOT NULL");
+                .HasFilter("\"CNPJ\" IS NOT NULL");
         });
 
 
