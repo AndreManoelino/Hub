@@ -90,12 +90,7 @@ function App() {
             </button>
 
 
-            <a
-              href="#cadastro"
-              className="button button-primary"
-            >
-              Começar agora
-            </a>
+            
 
           </div>
 
@@ -113,7 +108,12 @@ function App() {
         className="hero-section"
       >
 
-        <div className="hero-image"></div>
+        <div className="hero-image">
+         <img
+            src="/imagens/fundo.png"
+            alt="Dashboard de gestão empresarial do ControllHub"
+          />
+        </div>
 
         <div className="hero-overlay"></div>
 
@@ -150,12 +150,7 @@ function App() {
 
             <div className="hero-actions">
 
-              <a
-                href="#cadastro"
-                className="button button-primary button-large"
-              >
-                Cadastrar minha empresa
-              </a>
+             
 
 
               <a
@@ -386,10 +381,9 @@ function App() {
               <div className="feature-photo">
 
                 <img
-                  src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=85"
-                  alt="Equipe trabalhando em uma empresa"
-                />
-
+                src="/imagens/fundo.png"
+                alt="Dashboard de gestão empresarial do ControllHub"
+              />
               </div>
 
 
@@ -926,9 +920,9 @@ function App() {
 
             <p>
 
-              Imagine uma empresa como a Eldora utilizando o ControllHub
+              Imagine uma empresa como a Eldora hoje temos alguns de seus revendedores melhorando seus processos  utilizando o ControllHub
               para centralizar clientes, equipe, produtos, estoque,
-              financeiro e informações da operação.
+              financeiro e informações da operação. O ControllHub veio para melhorar essa interação fornecedor cliente com uma abordagem super leve otimizando tempo e dinheiro.
 
             </p>
 
@@ -1563,13 +1557,7 @@ function App() {
               </ul>
 
 
-              <a
-                href="#cadastro"
-                className="button button-primary"
-              >
-                Começar agora
-              </a>
-
+              
             </article>
 
 
@@ -1643,26 +1631,17 @@ function App() {
 
 
               <h3>
-                30 dias para conhecer o ControllHub.
+                                       EQC 30 dias para conhecer o ControllHub.
               </h3>
 
 
               <p>
-
-                Cadastre sua empresa e descubra como organizar sua operação
-                em uma única plataforma.
+                Entre em contato com o nosso time, iremos expor todas as nossas funcionalidades do sistemas, a e tem coisas muito boa você pode sempre estar enviando melhorias que gostaria no sistema
+                . Sendp assim tornando uma experiência mais agradavel.
 
               </p>
 
             </div>
-
-
-            <a
-              href="#cadastro"
-              className="button button-primary button-large"
-            >
-              Cadastrar minha empresa
-            </a>
 
           </div>
 
@@ -1684,10 +1663,7 @@ function App() {
 
 
           <div>
-
-            <span className="eyebrow">
-              CONTROLLHUB
-            </span>
+           
 
 
             <h2>
@@ -1770,12 +1746,7 @@ function App() {
           </p>
 
 
-          <a
-            href="#planos"
-            className="button button-light button-large"
-          >
-            Criar minha empresa
-          </a>
+          
 
         </div>
 
