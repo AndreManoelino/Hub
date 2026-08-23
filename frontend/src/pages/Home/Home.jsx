@@ -1041,211 +1041,241 @@ function App() {
 
           <div className="resources-layout">
 
+          {/* =========================================================
+              01 - ANA CAROLINA
+          ========================================================= */}
 
-            {/* ANA */}
+          <article className="feature-card feature-training">
 
-            <article className="feature-card feature-training">
+            <div className="feature-photo">
 
-              <div className="feature-photo">
+              <img
+                src="/imagens/carol.jpeg"
+                alt="Ana Carolina "
+              />
 
-                <img
-                  src="/imagens/carol.jpeg"
-                  alt="Dashboard de gestão empresarial do ControllHub"
-                />
+            </div>
 
-              </div>
+            <div className="feature-info">
 
+              <span className="resource-number">
+                01
+              </span>
 
-              <div className="feature-info">
+              <h3>
+                Ana Carolina
+              </h3>
 
-                <span className="resource-number">
-                  01
-                </span>
+              <p>
+                “O que eu mais gostei foi conseguir reunir as informações
+                da empresa em um único lugar. A equipe consegue trabalhar
+                melhor e eu consigo acompanhar a operação com muito mais
+                clareza.”
+              </p>
 
+              <small>
+                Revendedora dos produtos velmora.
+              </small>
 
-                <h3>
-                  Ana Carolina
-                </h3>
+            </div>
 
-
-                <p>
-
-                  “O que eu mais gostei foi conseguir reunir as informações
-                  da empresa em um único lugar. A equipe consegue trabalhar
-                  melhor e eu consigo acompanhar a operação com muito mais
-                  clareza.”
-
-                </p>
-
-
-                <small>
-                  Proprietária de empresa de serviços — exemplo demonstrativo
-                </small>
-
-              </div>
-
-            </article>
+          </article>
 
 
-            {/* ELDORA */}
+          {/* =========================================================
+              02 - ELDORA
+          ========================================================= */}
 
-            <article className="resource-card">
+          <article className="resource-card resource-card-with-image">
+
+            <div className="resource-card-photo">
+
+              <img
+                src="/imagens/almeida.jpeg"
+                alt="Almeida Lanches"
+              />
+
+            </div>
+
+            <div className="resource-card-content">
 
               <span className="resource-number">
                 02
               </span>
 
-
               <h3>
-                Eldora
+                Almeida Lanches
               </h3>
 
-
               <p>
-
-                Exemplo de empresa que pode utilizar o ControllHub para
-                acompanhar clientes, equipe, produtos, estoque e financeiro
-                em uma única plataforma.
-
+                Comecei a utilizar os produtos do ControllHub,
+                vi a diferença no dia a dia para controle de vendas, estoque, clientes
+                .Além de conseguir ter controle de gastos e entradas uma plataforma completa super recomendo.
               </p>
 
-
               <strong>
-                Operação demonstrativa
+                Almeida
               </strong>
 
-            </article>
+            </div>
+
+          </article>
 
 
-            {/* ACADEMIA */}
+          {/* =========================================================
+              03 - STUDIO PRIME FITNESS
+          ========================================================= */}
 
-            <article className="resource-card resource-dark">
+          <article className="resource-card resource-dark resource-card-with-image">
+
+            <div className="resource-card-photo">
+
+              <img
+                src="/imagens/padaria.jpeg"
+                alt="Padaria Tropical"
+              />
+
+            </div>
+
+            <div className="resource-card-content">
 
               <span className="resource-number">
                 03
               </span>
 
-
               <h3>
-                Studio Prime Fitness
+                Padaria Tropical
               </h3>
 
-
               <p>
-
-                Uma academia fictícia utilizando o ControllHub para
-                organizar alunos, professores, treinos, avaliações,
-                mensalidades e rotina financeira.
-
+                Deliciosos salgados e doces além de pães fresquinhos
               </p>
 
-
               <strong>
-                Empresa fictícia para demonstração
+                Padaria Tropical venha nos conhecer
               </strong>
 
-            </article>
+            </div>
+
+          </article>
 
 
-            {/* SEGUNDO DEPOIMENTO */}
+          {/* =========================================================
+              04 - ORGANIZAÇÃO
+          ========================================================= */}
 
-            <article className="resource-card">
+          <article className="resource-card resource-card-with-image">
+
+            <div className="resource-card-photo">
+
+              <img
+                src="/imagens/organizacao.jpeg"
+                alt="Organização empresarial - ControllHub"
+              />
+
+            </div>
+
+            <div className="resource-card-content">
 
               <span className="resource-number">
                 04
               </span>
 
-
               <h3>
                 Organização
               </h3>
 
-
               <p>
-
                 “Quando as informações ficam espalhadas, administrar o
                 negócio fica mais difícil. A proposta do ControllHub é
                 justamente colocar tudo em um só lugar.”
-
               </p>
-
 
               <strong>
                 Depoimento demonstrativo
               </strong>
 
-            </article>
+            </div>
+
+          </article>
 
 
-            {/* TERCEIRO */}
+          {/* =========================================================
+              05 - CONTROLE
+          ========================================================= */}
 
-            <article className="resource-card">
+          <article className="resource-card resource-card-with-image">
+
+            <div className="resource-card-photo">
+
+              <img
+                src="/imagens/controle.jpeg"
+                alt="Controle empresarial - ControllHub"
+              />
+
+            </div>
+
+            <div className="resource-card-content">
 
               <span className="resource-number">
                 05
               </span>
 
-
               <h3>
                 Controle
               </h3>
 
-
               <p>
-
                 “Ter diferentes níveis de acesso ajuda muito, porque cada
                 funcionário consegue trabalhar com as informações que
                 realmente precisa.”
-
               </p>
-
 
               <strong>
                 Depoimento demonstrativo
               </strong>
 
-            </article>
+            </div>
+
+          </article>
 
 
-            {/* FOTO CLIENTE */}
+          {/* =========================================================
+              06 - CLIENTES
+          ========================================================= */}
 
-            <article className="feature-card communication-card">
+          <article className="feature-card communication-card">
 
-              <div className="communication-photo">
+            <div className="communication-photo">
 
-                <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=85"
-                  alt="Empreendedora - imagem demonstrativa"
-                />
+              <img
+                src="/imagens/cliente.jpeg"
+                alt="Cliente do ControllHub - exemplo demonstrativo"
+              />
 
-              </div>
+            </div>
 
+            <div className="communication-content">
 
-              <div className="communication-content">
+              <span className="resource-number">
+                06
+              </span>
 
-                <span className="resource-number">
-                  06
-                </span>
+              <h3>
+                Espaço para seus clientes
+              </h3>
 
+              <p>
+                Aqui você pode colocar posteriormente as fotos reais
+                dos clientes que utilizarem o ControllHub e seus
+                respectivos depoimentos.
+              </p>
 
-                <h3>
-                  Espaço para seus clientes
-                </h3>
+            </div>
 
+          </article>
 
-                <p>
-
-                  Aqui você pode colocar posteriormente as fotos reais
-                  dos clientes que utilizarem o ControllHub e seus
-                  respectivos depoimentos.
-
-                </p>
-
-              </div>
-
-            </article>
-
-          </div>
+        </div>
 
         </div>
 
@@ -1294,7 +1324,7 @@ function App() {
             <article className="permission-card owner">
 
               <img
-                src="/imagens/clientes/cliente-01.jpg"
+                src="/imagens/carol.jpeg"
                 alt="Cliente do ControllHub"
                 style={{
                   width: '100%',
@@ -1311,12 +1341,15 @@ function App() {
 
 
               <h3>
-                Seu cliente
+                Ana Carolina Manoelino
               </h3>
 
 
               <p>
-                “Seu depoimento real entra aqui.”
+                 “O que eu mais gostei foi conseguir reunir as informações
+                da empresa em um único lugar. A equipe consegue trabalhar
+                melhor e eu consigo acompanhar a operação com muito mais
+                clareza.”
               </p>
 
             </article>
@@ -1325,7 +1358,7 @@ function App() {
             <article className="permission-card">
 
               <img
-                src="/imagens/clientes/cliente-02.jpg"
+                src="/imagens/almeida.jpeg"
                 alt="Cliente do ControllHub"
                 style={{
                   width: '100%',
@@ -1342,12 +1375,13 @@ function App() {
 
 
               <h3>
-                Seu cliente
+                Propriétaria da Panificadora Almeida
               </h3>
 
 
               <p>
-                “Seu depoimento real entra aqui.”
+                “Sistema muito completo me permitiu gerenciar além de produtos consegui gerenciar funcionários e também fornecedores
+                de uma forma mais completa e eficar otimizando tempo.”
               </p>
 
             </article>
