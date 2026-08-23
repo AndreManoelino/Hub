@@ -1,12 +1,13 @@
 using ControllHub.Administrador.DTOs.Usuario;
 using ControllHub.Administrador.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace ControllHub.Administrador.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UsuarioController : ControllerBase
 {
     private readonly IUsuarioService _usuarioService;

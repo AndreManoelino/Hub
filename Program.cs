@@ -1,22 +1,30 @@
+using System.Text;
 using ControllHub.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
 using ControllHub.Administrador.Interfaces;
 using ControllHub.Administrador.Services;
 using ControllHub.Administrador.Helpers;
 using ControllHub.Administrador.Repositories;
 using ControllHub.Administrador.Models;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ============================================================
+// CONTROLLERS
+// ============================================================
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ===============================
+// ============================================================
 // DATABASE
-// ===============================
+// ============================================================
 
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection");
@@ -48,20 +56,80 @@ builder.Services.AddDbContext<ControllHubContext>(options =>
     );
 });
 
-// ===============================
+// ============================================================
 // SERVICES
-// ===============================
+// ============================================================
 
 builder.Services.AddScoped<IEmpresaService, EmpresaService>();
 builder.Services.AddScoped<IAutenticacaoService, AutenticacaoService>();
 builder.Services.AddScoped<JwtHelper>();
+
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
 builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 
-// ===============================
+// ============================================================
+// JWT AUTHENTICATION
+// ============================================================
+
+var jwtSettings =
+    builder.Configuration.GetSection("JwtSettings");
+
+var secretKey = jwtSettings["SecretKey"];
+
+if (string.IsNullOrWhiteSpace(secretKey))
+{
+    throw new InvalidOperationException(
+        "JwtSettings:SecretKey não foi configurada."
+    );
+}
+
+var issuer = jwtSettings["Issuer"];
+var audience = jwtSettings["Audience"];
+
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+
+        options.DefaultChallengeScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(secretKey)
+                    ),
+
+                ValidateIssuer = true,
+                ValidIssuer = issuer,
+
+                ValidateAudience = true,
+                ValidAudience = audience,
+
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero
+            };
+    });
+
+// ============================================================
+// AUTHORIZATION
+// ============================================================
+
+builder.Services.AddAuthorization();
+
+// ============================================================
 // CORS
-// ===============================
+// ============================================================
 
 builder.Services.AddCors(options =>
 {
@@ -78,11 +146,15 @@ builder.Services.AddCors(options =>
     });
 });
 
+// ============================================================
+// BUILD
+// ============================================================
+
 var app = builder.Build();
 
-// ===============================
+// ============================================================
 // SEED
-// ===============================
+// ============================================================
 
 using (var scope = app.Services.CreateScope())
 {
@@ -95,9 +167,9 @@ using (var scope = app.Services.CreateScope())
     );
 }
 
-// ===============================
+// ============================================================
 // SWAGGER
-// ===============================
+// ============================================================
 
 if (app.Environment.IsDevelopment())
 {
@@ -105,13 +177,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// ===============================
+// ============================================================
 // MIDDLEWARE
-// ===============================
+// ============================================================
 
 app.UseCors("Frontend");
 
-
+// IMPORTANTE:
+// Authentication vem ANTES de Authorization.
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
