@@ -1049,8 +1049,8 @@ function App() {
               <div className="feature-photo">
 
                 <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=85"
-                  alt="Ana Carolina - imagem demonstrativa"
+                  src="/imagens/carol.jpeg"
+                  alt="Dashboard de gestão empresarial do ControllHub"
                 />
 
               </div>
