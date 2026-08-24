@@ -1,4 +1,3 @@
-//const API_URL = "http://localhost:5108";
 const API_URL =
   import.meta.env.PROD
     ? "https://hub-2-7f8z.onrender.com"
@@ -36,7 +35,6 @@ export async function fazerLogin(login, senha) {
 
   return resposta.json();
 }
-
 
 /* =========================================================
    REQUISIÇÃO EMPRESA
