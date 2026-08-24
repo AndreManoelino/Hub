@@ -46,6 +46,7 @@ async function requisicaoEmpresa(url, options = {}) {
   console.log("REQUISIÇÃO EMPRESA");
   console.log("URL:", `${API_URL}${url}`);
   console.log("TOKEN EXISTE:", !!token);
+  console.log("METHOD:", options.method || "GET");
 
   const resposta = await fetch(`${API_URL}${url}`, {
     ...options,
@@ -65,16 +66,27 @@ async function requisicaoEmpresa(url, options = {}) {
   });
 
   console.log("STATUS EMPRESA:", resposta.status);
+  console.log("URL FINAL:", resposta.url);
 
   if (!resposta.ok) {
-    const erro = await resposta.json().catch(() => null);
+    const textoErro = await resposta.text();
 
-    console.error("ERRO API EMPRESA:", erro);
+    console.error("ERRO API EMPRESA STATUS:", resposta.status);
+    console.error("ERRO API EMPRESA RESPOSTA:", textoErro);
+
+    let erro = null;
+
+    try {
+      erro = textoErro ? JSON.parse(textoErro) : null;
+    } catch {
+      erro = null;
+    }
 
     throw new Error(
       erro?.mensagem ||
-        erro?.message ||
-        `Erro na requisição. Código: ${resposta.status}`
+      erro?.message ||
+      textoErro ||
+      `Erro na requisição. Código: ${resposta.status}`
     );
   }
 
@@ -84,8 +96,6 @@ async function requisicaoEmpresa(url, options = {}) {
 
   return resposta.json().catch(() => null);
 }
-
-
 /* =========================================================
    LISTAR EMPRESAS
 ========================================================= */

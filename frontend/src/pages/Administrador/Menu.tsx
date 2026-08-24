@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import "./Menu.css";
 import Empresas from "./Empresas/Empresa";
 import Usuario from "./Usuarios/Usuario";
+
+import { listarEmpresas } from "../../services/api";
+
 type TelaAdministrador =
   | "inicio"
   | "empresas"
@@ -11,6 +14,7 @@ type TelaAdministrador =
   | "configuracoes"
   | "auditoria"
   | "senha";
+
 
 type Empresa = {
   id: number;
@@ -162,45 +166,12 @@ export default function MenuAdministrador() {
    * CARREGAR EMPRESAS
    * ============================================================
    */
-
   async function carregarEmpresas() {
     try {
       setCarregandoEmpresas(true);
       setErroEmpresas("");
 
-      const token =
-        localStorage.getItem("token");
-
-      const resposta = await fetch(
-        `${API_URL}/api/administrador/empresas`,
-        {
-          method: "GET",
-
-          headers: {
-            Accept: "application/json",
-
-            ...(token
-              ? {
-                  Authorization:
-                    `Bearer ${token}`,
-                }
-              : {}),
-          },
-        }
-      );
-
-      if (!resposta.ok) {
-        const mensagem =
-          await resposta.text();
-
-        throw new Error(
-          mensagem ||
-            "Não foi possível carregar as empresas."
-        );
-      }
-
-      const dados =
-        await resposta.json();
+      const dados = await listarEmpresas();
 
       const lista: Empresa[] =
         Array.isArray(dados)
@@ -676,7 +647,7 @@ export default function MenuAdministrador() {
                     className="nav-subitem"
                     onClick={() =>
                       navegar(
-                        "financeiro"
+                        "empresas"
                       )
                     }
                   >
@@ -1757,10 +1728,6 @@ export default function MenuAdministrador() {
           {/* ==================================================
               TELAS FUTURAS
           ================================================== */}
-
-          {tela === "empresas" && (
-            <Empresas />
-          )}
 
           {tela === "usuarios" && (
             <Usuario />

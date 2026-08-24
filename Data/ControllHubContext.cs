@@ -33,11 +33,9 @@ public class ControllHubContext : DbContext
             entity.Property(e => e.RazaoSocial)
                 .HasMaxLength(200);
 
-            entity.Property(e => e.CPF)
-                .HasMaxLength(11);
-
             entity.Property(e => e.CNPJ)
-                .HasMaxLength(14);
+                .HasMaxLength(14)
+                .IsRequired();
 
             entity.Property(e => e.Email)
                 .HasMaxLength(150)
@@ -70,22 +68,15 @@ public class ControllHubContext : DbContext
             entity.Property(e => e.Complemento)
                 .HasMaxLength(100);
 
-            // Empresa pertence a um plano
             entity.HasOne(e => e.Plano)
                 .WithMany(p => p.Empresas)
                 .HasForeignKey(e => e.PlanoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // CPF da empresa é único quando informado
-            entity.HasIndex(e => e.CPF)
-                .IsUnique()
-                .HasFilter("\"CPF\" IS NOT NULL");
-
+            // CNPJ da empresa é único
             entity.HasIndex(e => e.CNPJ)
-                .IsUnique()
-                .HasFilter("\"CNPJ\" IS NOT NULL");
+                .IsUnique();
         });
-
 
         // ==========================================
         // USUARIO

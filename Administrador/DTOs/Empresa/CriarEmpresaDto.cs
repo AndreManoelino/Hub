@@ -1,5 +1,3 @@
-using ControllHub.Administrador.Enums;
-
 namespace ControllHub.Administrador.DTOs.Empresa;
 
 public class CriarEmpresaDto
@@ -8,11 +6,7 @@ public class CriarEmpresaDto
 
     public string? RazaoSocial { get; set; }
 
-    public TipoDocumento TipoDocumento { get; set; }
-
-    public string? CPF { get; set; }
-
-    public string? CNPJ { get; set; }
+    public string CNPJ { get; set; } = string.Empty;
 
     public string? InscricaoEstadual { get; set; }
 

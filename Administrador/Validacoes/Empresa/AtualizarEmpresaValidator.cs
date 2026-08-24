@@ -17,6 +17,12 @@ public class AtualizarEmpresaValidator : AbstractValidator<AtualizarEmpresaDto>
             .MaximumLength(200)
             .WithMessage("A razão social deve ter no máximo 200 caracteres.");
 
+        RuleFor(x => x.CNPJ)
+            .NotEmpty()
+            .WithMessage("O CNPJ é obrigatório.")
+            .Must(TemCatorzeDigitos)
+            .WithMessage("O CNPJ deve possuir 14 dígitos.");
+
         RuleFor(x => x.Email)
             .NotEmpty()
             .WithMessage("O e-mail é obrigatório.")
@@ -69,13 +75,19 @@ public class AtualizarEmpresaValidator : AbstractValidator<AtualizarEmpresaDto>
         RuleFor(x => x.PlanoId)
             .GreaterThan(0)
             .WithMessage("O plano é obrigatório.");
+    }
 
-        RuleFor(x => x.TipoDocumento)
-            .NotEmpty()
-            .WithMessage("O tipo de documento é obrigatório.")
-            .Must(tipo =>
-                tipo.Equals("CPF", StringComparison.OrdinalIgnoreCase) ||
-                tipo.Equals("CNPJ", StringComparison.OrdinalIgnoreCase))
-            .WithMessage("O tipo de documento deve ser CPF ou CNPJ.");
+    private static bool TemCatorzeDigitos(string? cnpj)
+    {
+        if (string.IsNullOrWhiteSpace(cnpj))
+        {
+            return false;
+        }
+
+        var numeros = new string(
+            cnpj.Where(char.IsDigit).ToArray()
+        );
+
+        return numeros.Length == 14;
     }
 }

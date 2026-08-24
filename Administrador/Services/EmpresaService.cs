@@ -1,7 +1,7 @@
 using ControllHub.Administrador.DTOs.Empresa;
-using ControllHub.Administrador.Enums;
 using ControllHub.Administrador.Interfaces;
 using ControllHub.Administrador.Models;
+using ControllHub.Administrador.Enums;
 using ControllHub.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,28 +19,24 @@ public class EmpresaService : IEmpresaService
     public async Task<EmpresaResponseDto> CriarEmpresa(
         CriarEmpresaDto dto)
     {
-        var documento = NormalizarDocumento(
-            dto.TipoDocumento == TipoDocumento.CPF
-                ? dto.CPF
-                : dto.CNPJ
-        );
+        var cnpj = NormalizarDocumento(dto.CNPJ);
 
-        if (string.IsNullOrWhiteSpace(documento))
+        if (string.IsNullOrWhiteSpace(cnpj))
         {
             throw new ArgumentException(
-                "O documento da empresa é obrigatório."
+                "O CNPJ da empresa é obrigatório."
             );
         }
 
-        var documentoJaExiste = await DocumentoExiste(
-            documento,
+        var cnpjJaExiste = await CnpjExiste(
+            cnpj,
             null
         );
 
-        if (documentoJaExiste)
+        if (cnpjJaExiste)
         {
             throw new InvalidOperationException(
-                "Já existe uma empresa cadastrada com este documento."
+                "Já existe uma empresa cadastrada com este CNPJ."
             );
         }
 
@@ -59,38 +55,59 @@ public class EmpresaService : IEmpresaService
         var empresa = new Empresa
         {
             NomeFantasia = dto.NomeFantasia.Trim(),
-            RazaoSocial = LimparTexto(dto.RazaoSocial),
 
-            TipoDocumento = dto.TipoDocumento,
+            RazaoSocial = LimparTexto(
+                dto.RazaoSocial
+            ),
 
-            CPF = dto.TipoDocumento == TipoDocumento.CPF
-                ? documento
-                : null,
-
-            CNPJ = dto.TipoDocumento == TipoDocumento.CNPJ
-                ? documento
-                : null,
+            CNPJ = cnpj,
 
             InscricaoEstadual = LimparTexto(
                 dto.InscricaoEstadual
             ),
 
             Email = dto.Email.Trim(),
-            Telefone = LimparTexto(dto.Telefone),
-            Celular = LimparTexto(dto.Celular),
 
-            CEP = NormalizarCep(dto.CEP),
+            Telefone = LimparTexto(
+                dto.Telefone
+            ),
 
-            Estado = LimparTexto(dto.Estado),
-            Cidade = LimparTexto(dto.Cidade),
-            Bairro = LimparTexto(dto.Bairro),
-            Logradouro = LimparTexto(dto.Logradouro),
-            Numero = LimparTexto(dto.Numero),
-            Complemento = LimparTexto(dto.Complemento),
+            Celular = LimparTexto(
+                dto.Celular
+            ),
+
+            CEP = NormalizarCep(
+                dto.CEP
+            ),
+
+            Estado = LimparTexto(
+                dto.Estado
+            ),
+
+            Cidade = LimparTexto(
+                dto.Cidade
+            ),
+
+            Bairro = LimparTexto(
+                dto.Bairro
+            ),
+
+            Logradouro = LimparTexto(
+                dto.Logradouro
+            ),
+
+            Numero = LimparTexto(
+                dto.Numero
+            ),
+
+            Complemento = LimparTexto(
+                dto.Complemento
+            ),
 
             PlanoId = dto.PlanoId,
 
             Status = StatusEmpresa.Ativa,
+
             Ativo = true,
 
             DataCadastro = DateTime.UtcNow
@@ -120,9 +137,9 @@ public class EmpresaService : IEmpresaService
     public async Task<EmpresaResponseDto?> BuscarPorDocumento(
         string documento)
     {
-        var documentoNormalizado = NormalizarDocumento(documento);
+        var cnpj = NormalizarDocumento(documento);
 
-        if (string.IsNullOrWhiteSpace(documentoNormalizado))
+        if (string.IsNullOrWhiteSpace(cnpj))
         {
             return null;
         }
@@ -130,8 +147,7 @@ public class EmpresaService : IEmpresaService
         var empresa = await _context.Empresas
             .AsNoTracking()
             .FirstOrDefaultAsync(x =>
-                x.CPF == documentoNormalizado ||
-                x.CNPJ == documentoNormalizado);
+                x.CNPJ == cnpj);
 
         if (empresa is null)
         {
@@ -164,13 +180,24 @@ public class EmpresaService : IEmpresaService
             return null;
         }
 
-        if (!Enum.TryParse<TipoDocumento>(
-                dto.TipoDocumento,
-                true,
-                out var tipoDocumento))
+        var cnpj = NormalizarDocumento(dto.CNPJ);
+
+        if (string.IsNullOrWhiteSpace(cnpj))
         {
             throw new ArgumentException(
-                "O tipo de documento informado é inválido."
+                "O CNPJ da empresa é obrigatório."
+            );
+        }
+
+        var cnpjJaExiste = await CnpjExiste(
+            cnpj,
+            id
+        );
+
+        if (cnpjJaExiste)
+        {
+            throw new InvalidOperationException(
+                "Já existe outra empresa cadastrada com este CNPJ."
             );
         }
 
@@ -191,6 +218,8 @@ public class EmpresaService : IEmpresaService
         empresa.RazaoSocial = LimparTexto(
             dto.RazaoSocial
         );
+
+        empresa.CNPJ = cnpj;
 
         empresa.Email = dto.Email.Trim();
 
@@ -235,7 +264,6 @@ public class EmpresaService : IEmpresaService
         );
 
         empresa.PlanoId = dto.PlanoId;
-        empresa.TipoDocumento = tipoDocumento;
 
         empresa.DataAtualizacao = DateTime.UtcNow;
 
@@ -260,7 +288,9 @@ public class EmpresaService : IEmpresaService
         }
 
         empresa.Ativo = false;
+
         empresa.Status = StatusEmpresa.Suspensa;
+
         empresa.DataAtualizacao = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -284,7 +314,9 @@ public class EmpresaService : IEmpresaService
         }
 
         empresa.Ativo = true;
+
         empresa.Status = StatusEmpresa.Ativa;
+
         empresa.DataAtualizacao = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -292,15 +324,14 @@ public class EmpresaService : IEmpresaService
         return true;
     }
 
-    private async Task<bool> DocumentoExiste(
-        string documento,
+    private async Task<bool> CnpjExiste(
+        string cnpj,
         int? empresaId)
     {
         return await _context.Empresas
             .AsNoTracking()
             .AnyAsync(x =>
-                (x.CPF == documento ||
-                 x.CNPJ == documento) &&
+                x.CNPJ == cnpj &&
                 (!empresaId.HasValue ||
                  x.Id != empresaId.Value));
     }
@@ -358,11 +389,9 @@ public class EmpresaService : IEmpresaService
             Id = empresa.Id,
 
             NomeFantasia = empresa.NomeFantasia,
+
             RazaoSocial = empresa.RazaoSocial,
 
-            TipoDocumento = empresa.TipoDocumento,
-
-            CPF = empresa.CPF,
             CNPJ = empresa.CNPJ,
 
             InscricaoEstadual =
@@ -371,14 +400,21 @@ public class EmpresaService : IEmpresaService
             Email = empresa.Email,
 
             Telefone = empresa.Telefone,
+
             Celular = empresa.Celular,
 
             CEP = empresa.CEP,
+
             Estado = empresa.Estado,
+
             Cidade = empresa.Cidade,
+
             Bairro = empresa.Bairro,
+
             Logradouro = empresa.Logradouro,
+
             Numero = empresa.Numero,
+
             Complemento = empresa.Complemento,
 
             PlanoId = empresa.PlanoId,
@@ -386,6 +422,7 @@ public class EmpresaService : IEmpresaService
             Ativo = empresa.Ativo,
 
             DataCadastro = empresa.DataCadastro,
+
             DataAtualizacao = empresa.DataAtualizacao
         };
     }

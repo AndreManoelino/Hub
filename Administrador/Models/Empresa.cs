@@ -14,13 +14,9 @@ public class Empresa
     [MaxLength(200)]
     public string? RazaoSocial { get; set; }
 
-    public TipoDocumento TipoDocumento { get; set; }
-
-    [MaxLength(11)]
-    public string? CPF { get; set; }
-
+    [Required]
     [MaxLength(14)]
-    public string? CNPJ { get; set; }
+    public string CNPJ { get; set; } = string.Empty;
 
     [MaxLength(20)]
     public string? InscricaoEstadual { get; set; }

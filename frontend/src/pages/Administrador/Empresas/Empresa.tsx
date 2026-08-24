@@ -9,15 +9,11 @@ import {
   desativarEmpresa,
   ativarEmpresa,
 } from "../../../services/api";
-//const API_URL = "http://localhost:5108";
-const API_URL = "https://hub-2-7f8z.onrender.com";
 interface Empresa {
   id: number;
   nomeFantasia: string;
   razaoSocial: string;
-  tipoDocumento: number;
-  cpf?: string | null;
-  cnpj?: string | null;
+  cnpj: string;
   inscricaoEstadual?: string | null;
   email?: string | null;
   telefone?: string | null;
@@ -36,12 +32,9 @@ interface Empresa {
   dataAtualizacao?: string;
 }
 
-
 interface FormEmpresa {
   nomeFantasia: string;
   razaoSocial: string;
-  tipoDocumento: number;
-  cpf: string;
   cnpj: string;
   inscricaoEstadual: string;
   email: string;
@@ -57,12 +50,9 @@ interface FormEmpresa {
   planoId: number;
 }
 
-
 const formularioInicial: FormEmpresa = {
   nomeFantasia: "",
   razaoSocial: "",
-  tipoDocumento: 2,
-  cpf: "",
   cnpj: "",
   inscricaoEstadual: "",
   email: "",
@@ -78,12 +68,7 @@ const formularioInicial: FormEmpresa = {
   planoId: 0,
 };
 
-
 function formatarDocumento(empresa: Empresa) {
-  if (empresa.tipoDocumento === 1) {
-    return empresa.cpf || "-";
-  }
-
   return empresa.cnpj || "-";
 }
 
@@ -221,10 +206,6 @@ export default function Empresas() {
 
       razaoSocial: empresa.razaoSocial || "",
 
-      tipoDocumento: empresa.tipoDocumento || 2,
-
-      cpf: empresa.cpf || "",
-
       cnpj: empresa.cnpj || "",
 
       inscricaoEstadual:
@@ -279,17 +260,19 @@ export default function Empresas() {
      SALVAR
   ===================================================== */
 
-  async function salvarEmpresa(
-    event: React.FormEvent
-  ) {
+    
+    async function salvarEmpresa(
+      event: React.FormEvent
+    ) {
+      event.preventDefault();
 
-    event.preventDefault();
+      // NÃO deixa outro submit começar enquanto este estiver executando
+      if (salvando) {
+        console.log("⛔ Salvamento já em andamento. Ignorando novo submit.");
+        return;
+      }
 
-    try {
-
-      setSalvando(true);
-      setErro("");
-
+      // Valida ANTES de colocar o botão como salvando
       if (!formulario.nomeFantasia.trim()) {
         setErro("Informe o nome fantasia.");
         return;
@@ -304,15 +287,13 @@ export default function Empresas() {
         nomeFantasia: formulario.nomeFantasia.trim(),
         razaoSocial: formulario.razaoSocial.trim(),
 
-        tipoDocumento: Number(formulario.tipoDocumento),
-
-        cpf: formulario.cpf?.trim() || "",
         cnpj: formulario.cnpj?.trim() || "",
 
         inscricaoEstadual:
           formulario.inscricaoEstadual?.trim() || "",
 
-        email: formulario.email?.trim() || "",
+        email:
+          formulario.email?.trim() || "",
 
         telefone:
           formulario.telefone?.trim() || "",
@@ -345,41 +326,58 @@ export default function Empresas() {
           Number(formulario.planoId) || 0,
       };
 
-        if (empresaSelecionada) {
+      try {
+        setSalvando(true);
+        setErro("");
 
-        await atualizarEmpresa(
+        console.log("🚀 INICIANDO SALVAMENTO");
+
+        if (empresaSelecionada) {
+          console.log("✏️ Atualizando empresa:", empresaSelecionada.id);
+
+          await atualizarEmpresa(
             empresaSelecionada.id,
             dadosParaEnviar
-        );
-
+          );
         } else {
+          console.log("➕ Criando empresa");
 
-        await criarEmpresa(dadosParaEnviar);
-
+          await criarEmpresa(dadosParaEnviar);
         }
 
-      setModalAberto(false);
+        console.log("✅ POST/PUT TERMINOU COM SUCESSO");
 
-      setEmpresaSelecionada(null);
+        // Fecha imediatamente após o POST/PUT terminar
+        setSalvando(false);
+        setModalAberto(false);
+        setEmpresaSelecionada(null);
+        setFormulario(formularioInicial);
 
-      setFormulario(formularioInicial);
+        // Atualiza a lista depois, sem manter o botão preso
+        carregarEmpresas().catch((error) => {
+          console.error(
+            "Erro ao atualizar lista de empresas:",
+            error
+          );
+        });
 
-      await carregarEmpresas();
+      } catch (error) {
+        console.error(
+          "❌ ERRO AO SALVAR EMPRESA:",
+          error
+        );
 
-    } catch (error) {
+        setErro(
+          error instanceof Error
+            ? error.message
+            : "Não foi possível salvar a empresa."
+        );
 
-      setErro(
-        error instanceof Error
-          ? error.message
-          : "Não foi possível salvar a empresa."
-      );
-
-    } finally {
-
-      setSalvando(false);
-
+        setSalvando(false);
+      }
     }
-  }
+
+
 
 
   /* =====================================================
@@ -954,55 +952,6 @@ export default function Empresas() {
                     />
 
                   </div>
-
-
-                  <div className="form-group">
-
-                    <label>
-                      Tipo de documento
-                    </label>
-
-                    <select
-                      value={formulario.tipoDocumento}
-                      onChange={(e) =>
-                        alterarCampo(
-                          "tipoDocumento",
-                          Number(e.target.value)
-                        )
-                      }
-                    >
-
-                      <option value={1}>
-                        CPF
-                      </option>
-
-                      <option value={2}>
-                        CNPJ
-                      </option>
-
-                    </select>
-
-                  </div>
-
-
-                  <div className="form-group">
-
-                    <label>
-                      CPF
-                    </label>
-
-                    <input
-                      value={formulario.cpf}
-                      onChange={(e) =>
-                        alterarCampo(
-                          "cpf",
-                          e.target.value
-                        )
-                      }
-                    />
-
-                  </div>
-
 
                   <div className="form-group">
 

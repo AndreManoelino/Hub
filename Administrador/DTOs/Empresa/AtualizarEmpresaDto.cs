@@ -6,9 +6,11 @@ public class AtualizarEmpresaDto
 
     public string? RazaoSocial { get; set; }
 
-    public string Email { get; set; } = string.Empty;
+    public string CNPJ { get; set; } = string.Empty;
 
     public string? InscricaoEstadual { get; set; }
+
+    public string Email { get; set; } = string.Empty;
 
     public string? Telefone { get; set; }
 
@@ -29,6 +31,4 @@ public class AtualizarEmpresaDto
     public string? Complemento { get; set; }
 
     public int PlanoId { get; set; }
-
-    public string TipoDocumento { get; set; } = string.Empty;
 }
