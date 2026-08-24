@@ -1,5 +1,8 @@
 //const API_URL = "http://localhost:5108";
-const API_URL = "https://hub-2-7f8z.onrender.com";
+const API_URL =
+  import.meta.env.PROD
+    ? "https://hub-2-7f8z.onrender.com"
+    : "http://localhost:5108";
 
 /* =========================================================
    LOGIN

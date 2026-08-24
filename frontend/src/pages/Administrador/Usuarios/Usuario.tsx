@@ -8,10 +8,11 @@ import {
   desativarUsuario,
   ativarUsuario,
 } from "../../../services/api";
-const API_URL = "https://hub-2-7f8z.onrender.com";
+
 interface Usuario {
   id: number;
   nome: string;
+
   cpf: string;
   dataNascimento?: string | null;
   email: string;
