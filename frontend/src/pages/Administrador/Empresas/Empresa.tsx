@@ -10,6 +10,7 @@ import {
   ativarEmpresa,
 } from "../../../services/api";
 //const API_URL = "http://localhost:5108";
+const API_URL = "https://hub-2-7f8z.onrender.com";
 interface Empresa {
   id: number;
   nomeFantasia: string;

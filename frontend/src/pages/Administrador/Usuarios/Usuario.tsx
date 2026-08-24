@@ -8,7 +8,7 @@ import {
   desativarUsuario,
   ativarUsuario,
 } from "../../../services/api";
-
+const API_URL = "https://hub-2-7f8z.onrender.com";
 interface Usuario {
   id: number;
   nome: string;
@@ -93,7 +93,7 @@ const perfisPermitidos = [
     nome: "Cliente",
     descricao: "Acesso destinado a Clientes"
   },
-  
+
 ];
 
 
