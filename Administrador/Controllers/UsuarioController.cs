@@ -23,6 +23,7 @@ public class UsuarioController : ControllerBase
     // =========================================================
 
     [HttpPost]
+    [Authorize(Policy = "PodeCriarUsuario")]
     public async Task<IActionResult> Criar(
         [FromBody] CriarUsuarioDto dto)
     {

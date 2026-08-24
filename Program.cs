@@ -1,9 +1,12 @@
 using System.Text;
+
 using ControllHub.Data;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 using ControllHub.Administrador.Interfaces;
 using ControllHub.Administrador.Services;
@@ -20,7 +23,55 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// ============================================================
+// SWAGGER
+// ============================================================
+
+builder.Services.AddSwaggerGen(options =>
+{
+    // ========================================================
+    // AUTENTICAÇÃO JWT
+    // ========================================================
+
+    options.AddSecurityDefinition(
+        "Bearer",
+        new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+
+            Description =
+                "Digite o token JWT. " +
+                "O Swagger enviará automaticamente como: " +
+                "Bearer {token}"
+        }
+    );
+
+    // ========================================================
+    // APLICA AUTENTICAÇÃO AOS ENDPOINTS
+    // ========================================================
+
+    options.AddSecurityRequirement(
+        new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
+        }
+    );
+});
 
 // ============================================================
 // DATABASE
@@ -125,7 +176,20 @@ builder.Services
 // AUTHORIZATION
 // ============================================================
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    // Perfil 1 = Administrador do Sistema
+    // Perfil 2 = Dono da Empresa
+
+    options.AddPolicy("PodeCriarUsuario", policy =>
+    {
+        policy.RequireClaim(
+            "perfilId",
+            "1",
+            "2"
+        );
+    });
+});
 
 // ============================================================
 // CORS
@@ -183,10 +247,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("Frontend");
 
-// IMPORTANTE:
-// Authentication vem ANTES de Authorization.
+// ============================================================
+// AUTHENTICATION
+// ============================================================
+
 app.UseAuthentication();
+
+// ============================================================
+// AUTHORIZATION
+// ============================================================
+
 app.UseAuthorization();
+
+// ============================================================
+// CONTROLLERS
+// ============================================================
 
 app.MapControllers();
 

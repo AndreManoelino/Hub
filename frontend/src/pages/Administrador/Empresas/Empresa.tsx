@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import "./Empresas.css";
 
 import {
   listarEmpresas,
@@ -8,10 +9,7 @@ import {
   desativarEmpresa,
   ativarEmpresa,
 } from "../../../services/api";
-
-import "./Empresas.css";
-
-
+//const API_URL = "http://localhost:5108";
 interface Empresa {
   id: number;
   nomeFantasia: string;

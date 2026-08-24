@@ -3,7 +3,7 @@ import "./Menu.css";
 import Empresas from "./Empresas/Empresa";
 import Usuario from "./Usuarios/Usuario";
 const API_URL = "https://hub-2-7f8z.onrender.com";
-
+//const API_URL = "http://localhost:5108";
 type TelaAdministrador =
   | "inicio"
   | "empresas"
@@ -785,7 +785,7 @@ export default function MenuAdministrador() {
                     className="nav-subitem"
                     onClick={() =>
                       navegar(
-                        ""
+                        "empresas"
                       )
                     }
                   >

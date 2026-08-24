@@ -1,5 +1,6 @@
-
+//const API_URL = "http://localhost:5108";
 const API_URL = "https://hub-2-7f8z.onrender.com";
+
 /* =========================================================
    LOGIN
 ========================================================= */
@@ -33,6 +34,7 @@ export async function fazerLogin(login, senha) {
   return resposta.json();
 }
 
+
 /* =========================================================
    REQUISIÇÃO EMPRESA
 ========================================================= */
@@ -40,8 +42,13 @@ export async function fazerLogin(login, senha) {
 async function requisicaoEmpresa(url, options = {}) {
   const token = localStorage.getItem("token");
 
+  console.log("REQUISIÇÃO EMPRESA");
+  console.log("URL:", `${API_URL}${url}`);
+  console.log("TOKEN EXISTE:", !!token);
+
   const resposta = await fetch(`${API_URL}${url}`, {
     ...options,
+
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -56,8 +63,12 @@ async function requisicaoEmpresa(url, options = {}) {
     },
   });
 
+  console.log("STATUS EMPRESA:", resposta.status);
+
   if (!resposta.ok) {
     const erro = await resposta.json().catch(() => null);
+
+    console.error("ERRO API EMPRESA:", erro);
 
     throw new Error(
       erro?.mensagem ||
@@ -73,9 +84,9 @@ async function requisicaoEmpresa(url, options = {}) {
   return resposta.json().catch(() => null);
 }
 
+
 /* =========================================================
    LISTAR EMPRESAS
-   GET /api/administrador/empresas
 ========================================================= */
 
 export async function listarEmpresas() {
@@ -87,9 +98,9 @@ export async function listarEmpresas() {
   );
 }
 
+
 /* =========================================================
    BUSCAR EMPRESA POR ID
-   GET /api/administrador/empresas/{id}
 ========================================================= */
 
 export async function buscarEmpresaPorId(id) {
@@ -101,25 +112,23 @@ export async function buscarEmpresaPorId(id) {
   );
 }
 
+
 /* =========================================================
    BUSCAR EMPRESA POR DOCUMENTO
-   GET /api/administrador/empresas/documento/{documento}
 ========================================================= */
 
 export async function buscarEmpresaPorDocumento(documento) {
   return requisicaoEmpresa(
-    `/api/administrador/empresas/documento/${encodeURIComponent(
-      documento
-    )}`,
+    `/api/administrador/empresas/documento/${encodeURIComponent(documento)}`,
     {
       method: "GET",
     }
   );
 }
 
+
 /* =========================================================
    CRIAR EMPRESA
-   POST /api/administrador/empresas
 ========================================================= */
 
 export async function criarEmpresa(dados) {
@@ -132,9 +141,9 @@ export async function criarEmpresa(dados) {
   );
 }
 
+
 /* =========================================================
    ATUALIZAR EMPRESA
-   PUT /api/administrador/empresas/{id}
 ========================================================= */
 
 export async function atualizarEmpresa(id, dados) {
@@ -147,9 +156,9 @@ export async function atualizarEmpresa(id, dados) {
   );
 }
 
+
 /* =========================================================
    DESATIVAR EMPRESA
-   PATCH /api/administrador/empresas/{id}/desativar
 ========================================================= */
 
 export async function desativarEmpresa(id) {
@@ -161,9 +170,9 @@ export async function desativarEmpresa(id) {
   );
 }
 
+
 /* =========================================================
    ATIVAR EMPRESA
-   PATCH /api/administrador/empresas/{id}/ativar
 ========================================================= */
 
 export async function ativarEmpresa(id) {
@@ -174,9 +183,6 @@ export async function ativarEmpresa(id) {
     }
   );
 }
-
-
-
 /* =========================================================
    USUÁRIOS
 ========================================================= */

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-
+import "./Usuario.css";
 import {
   listarUsuariosPorEmpresa,
   listarEmpresas,
@@ -8,8 +8,6 @@ import {
   desativarUsuario,
   ativarUsuario,
 } from "../../../services/api";
-
-import "./Usuario.css";
 
 interface Usuario {
   id: number;
@@ -90,7 +88,14 @@ const perfisPermitidos = [
     nome: "Aluno",
     descricao: "Acesso destinado ao aluno",
   },
+  {
+    valor: 6,
+    nome: "Cliente",
+    descricao: "Acesso destinado a Clientes"
+  },
+  
 ];
+
 
 /* =====================================================
    USUÁRIO LOGADO
