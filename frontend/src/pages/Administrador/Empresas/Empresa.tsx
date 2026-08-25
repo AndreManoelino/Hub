@@ -8,7 +8,9 @@ import {
   buscarEmpresaPorDocumento,
   desativarEmpresa,
   ativarEmpresa,
+  listarTiposEmpresa,
 } from "../../../services/api";
+
 interface Empresa {
   id: number;
   nomeFantasia: string;
@@ -25,8 +27,13 @@ interface Empresa {
   logradouro?: string | null;
   numero?: string | null;
   complemento?: string | null;
+
   planoId?: number | null;
   plano?: string | null;
+
+  tipoEmpresaId?: number | null;
+  tipoEmpresa?: string | null;
+
   ativo: boolean;
   dataCadastro: string;
   dataAtualizacao?: string;
@@ -48,8 +55,15 @@ interface FormEmpresa {
   numero: string;
   complemento: string;
   planoId: number;
+  tipoEmpresaId: number;
 }
-
+interface TipoEmpresa {
+  id: number;
+  nome: string;
+  codigo: string;
+  descricao?: string | null;
+  ativo: boolean;
+}
 const formularioInicial: FormEmpresa = {
   nomeFantasia: "",
   razaoSocial: "",
@@ -66,6 +80,7 @@ const formularioInicial: FormEmpresa = {
   numero: "",
   complemento: "",
   planoId: 0,
+  tipoEmpresaId: 0,
 };
 
 function formatarDocumento(empresa: Empresa) {
@@ -83,7 +98,8 @@ function formatarData(data?: string) {
 export default function Empresas() {
 
   const [empresas, setEmpresas] = useState<Empresa[]>([]);
-
+  const [tiposEmpresa, setTiposEmpresa] = useState<TipoEmpresa[]>([]);
+  const [carregandoTiposEmpresa, setCarregandoTiposEmpresa] = useState(false);
   const [carregando, setCarregando] = useState(true);
 
   const [erro, setErro] = useState("");
@@ -130,10 +146,39 @@ export default function Empresas() {
 
     }
   }
+  async function carregarTiposEmpresa() {
+    try {
+      setCarregandoTiposEmpresa(true);
 
+      const dados = await listarTiposEmpresa();
+
+      setTiposEmpresa(
+        Array.isArray(dados) ? dados : []
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Erro ao carregar tipos de empresa:",
+        error
+      );
+
+      setErro(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível carregar os tipos de empresa."
+      );
+
+    } finally {
+
+      setCarregandoTiposEmpresa(false);
+
+    }
+  }
 
   useEffect(() => {
     carregarEmpresas();
+    carregarTiposEmpresa();
   }, []);
 
 
@@ -233,6 +278,8 @@ export default function Empresas() {
 
       planoId: empresa.planoId || 0,
 
+      tipoEmpresaId: empresa.tipoEmpresaId || 0,
+
     });
 
     setModalAberto(true);
@@ -324,6 +371,8 @@ export default function Empresas() {
 
         planoId:
           Number(formulario.planoId) || 0,
+        tipoEmpresaId:
+          Number(formulario.tipoEmpresaId) || 0,
       };
 
       try {
@@ -685,6 +734,9 @@ export default function Empresas() {
 
                 <th>
                   Plano
+                </th>
+                <th>
+                  Tipo
                 </th>
 
                 <th>
@@ -1215,7 +1267,7 @@ export default function Empresas() {
               <div className="form-section">
 
                 <h3>
-                  Plano
+                  Plano e tipo de empresa
                 </h3>
 
                 <div className="form-grid">
@@ -1240,10 +1292,50 @@ export default function Empresas() {
 
                   </div>
 
+
+                  <div className="form-group">
+
+                    <label>
+                      Tipo de empresa *
+                    </label>
+
+                    <select
+                      value={formulario.tipoEmpresaId}
+                      onChange={(e) =>
+                        alterarCampo(
+                          "tipoEmpresaId",
+                          Number(e.target.value)
+                        )
+                      }
+                      disabled={carregandoTiposEmpresa}
+                    >
+
+                      <option value={0}>
+                        {carregandoTiposEmpresa
+                          ? "Carregando..."
+                          : "Selecione o tipo de empresa"}
+                      </option>
+
+                      {tiposEmpresa
+                        .filter((tipo) => tipo.ativo)
+                        .map((tipo) => (
+
+                          <option
+                            key={tipo.id}
+                            value={tipo.id}
+                          >
+                            {tipo.nome}
+                          </option>
+
+                        ))}
+
+                    </select>
+
+                  </div>
+
                 </div>
-
-              </div>
-
+              </div>              
+              
 
               <div className="empresa-modal-footer">
 

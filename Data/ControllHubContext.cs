@@ -1,3 +1,4 @@
+
 using ControllHub.Administrador.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ public class ControllHubContext : DbContext
     public DbSet<Empresa> Empresas => Set<Empresa>();
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<Plano> Planos => Set<Plano>();
+    public DbSet<TipoEmpresa> TiposEmpresa => Set<TipoEmpresa>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -68,15 +70,29 @@ public class ControllHubContext : DbContext
             entity.Property(e => e.Complemento)
                 .HasMaxLength(100);
 
+            // ==========================================
+            // PLANO
+            // ==========================================
+
             entity.HasOne(e => e.Plano)
                 .WithMany(p => p.Empresas)
                 .HasForeignKey(e => e.PlanoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // ==========================================
+            // TIPO DA EMPRESA
+            // ==========================================
+
+            entity.HasOne(e => e.TipoEmpresa)
+                .WithMany(t => t.Empresas)
+                .HasForeignKey(e => e.TipoEmpresaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // CNPJ da empresa é único
             entity.HasIndex(e => e.CNPJ)
                 .IsUnique();
         });
+
 
         // ==========================================
         // USUARIO
@@ -112,24 +128,6 @@ public class ControllHubContext : DbContext
             // ==========================================
             // RELACIONAMENTO COM EMPRESA
             // ==========================================
-            //
-            // EmpresaId é opcional.
-            //
-            // AdministradorSistema:
-            // EmpresaId = null
-            //
-            // Proprietário:
-            // EmpresaId = ID da empresa
-            //
-            // Administrador:
-            // EmpresaId = ID da empresa
-            //
-            // Profissional:
-            // EmpresaId = ID da empresa
-            //
-            // Aluno:
-            // EmpresaId = ID da empresa
-            //
 
             entity.HasOne(u => u.Empresa)
                 .WithMany(e => e.Usuarios)
@@ -160,5 +158,31 @@ public class ControllHubContext : DbContext
             entity.HasIndex(p => p.Nome)
                 .IsUnique();
         });
+
+
+        // ==========================================
+        // TIPO EMPRESA
+        // ==========================================
+
+        modelBuilder.Entity<TipoEmpresa>(entity =>
+        {
+            entity.HasKey(t => t.Id);
+
+            entity.Property(t => t.Nome)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            entity.Property(t => t.Codigo)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            entity.Property(t => t.Descricao)
+                .HasMaxLength(500);
+
+            // Código do tipo de empresa é único
+            entity.HasIndex(t => t.Codigo)
+                .IsUnique();
+        });
     }
 }
+

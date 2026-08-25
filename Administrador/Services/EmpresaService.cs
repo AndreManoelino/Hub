@@ -1,3 +1,4 @@
+
 using ControllHub.Administrador.DTOs.Empresa;
 using ControllHub.Administrador.Interfaces;
 using ControllHub.Administrador.Models;
@@ -28,6 +29,10 @@ public class EmpresaService : IEmpresaService
             );
         }
 
+        // ==========================================
+        // VALIDAR CNPJ
+        // ==========================================
+
         var cnpjJaExiste = await CnpjExiste(
             cnpj,
             null
@@ -40,7 +45,12 @@ public class EmpresaService : IEmpresaService
             );
         }
 
+        // ==========================================
+        // VALIDAR PLANO
+        // ==========================================
+
         var plano = await _context.Planos
+            .AsNoTracking()
             .FirstOrDefaultAsync(x =>
                 x.Id == dto.PlanoId &&
                 x.Ativo);
@@ -51,6 +61,27 @@ public class EmpresaService : IEmpresaService
                 "O plano informado não existe ou está inativo."
             );
         }
+
+        // ==========================================
+        // VALIDAR TIPO DA EMPRESA
+        // ==========================================
+
+        var tipoEmpresa = await _context.TiposEmpresa
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x =>
+                x.Id == dto.TipoEmpresaId &&
+                x.Ativo);
+
+        if (tipoEmpresa is null)
+        {
+            throw new InvalidOperationException(
+                "O tipo de empresa informado não existe ou está inativo."
+            );
+        }
+
+        // ==========================================
+        // CRIAR EMPRESA
+        // ==========================================
 
         var empresa = new Empresa
         {
@@ -106,6 +137,8 @@ public class EmpresaService : IEmpresaService
 
             PlanoId = dto.PlanoId,
 
+            TipoEmpresaId = dto.TipoEmpresaId,
+
             Status = StatusEmpresa.Ativa,
 
             Ativo = true,
@@ -120,11 +153,14 @@ public class EmpresaService : IEmpresaService
         return MapearEmpresa(empresa);
     }
 
+
     public async Task<EmpresaResponseDto?> BuscarPorId(int id)
     {
         var empresa = await _context.Empresas
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .Include(x => x.TipoEmpresa)
+            .FirstOrDefaultAsync(x =>
+                x.Id == id);
 
         if (empresa is null)
         {
@@ -133,6 +169,7 @@ public class EmpresaService : IEmpresaService
 
         return MapearEmpresa(empresa);
     }
+
 
     public async Task<EmpresaResponseDto?> BuscarPorDocumento(
         string documento)
@@ -146,6 +183,7 @@ public class EmpresaService : IEmpresaService
 
         var empresa = await _context.Empresas
             .AsNoTracking()
+            .Include(x => x.TipoEmpresa)
             .FirstOrDefaultAsync(x =>
                 x.CNPJ == cnpj);
 
@@ -156,6 +194,7 @@ public class EmpresaService : IEmpresaService
 
         return MapearEmpresa(empresa);
     }
+
 
     public async Task<IEnumerable<EmpresaResponseDto>>
         ObterTodasEmpresas()
@@ -168,17 +207,23 @@ public class EmpresaService : IEmpresaService
         return empresas.Select(MapearEmpresa);
     }
 
+
     public async Task<EmpresaResponseDto?> Atualizar(
         int id,
         AtualizarEmpresaDto dto)
     {
         var empresa = await _context.Empresas
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x =>
+                x.Id == id);
 
         if (empresa is null)
         {
             return null;
         }
+
+        // ==========================================
+        // VALIDAR CNPJ
+        // ==========================================
 
         var cnpj = NormalizarDocumento(dto.CNPJ);
 
@@ -201,7 +246,12 @@ public class EmpresaService : IEmpresaService
             );
         }
 
+        // ==========================================
+        // VALIDAR PLANO
+        // ==========================================
+
         var plano = await _context.Planos
+            .AsNoTracking()
             .FirstOrDefaultAsync(x =>
                 x.Id == dto.PlanoId &&
                 x.Ativo);
@@ -213,69 +263,89 @@ public class EmpresaService : IEmpresaService
             );
         }
 
-        empresa.NomeFantasia = dto.NomeFantasia.Trim();
+        // ==========================================
+        // VALIDAR TIPO DA EMPRESA
+        // ==========================================
 
-        empresa.RazaoSocial = LimparTexto(
-            dto.RazaoSocial
-        );
+        var tipoEmpresa = await _context.TiposEmpresa
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x =>
+                x.Id == dto.TipoEmpresaId &&
+                x.Ativo);
 
-        empresa.CNPJ = cnpj;
+        if (tipoEmpresa is null)
+        {
+            throw new InvalidOperationException(
+                "O tipo de empresa informado não existe ou está inativo."
+            );
+        }
 
-        empresa.Email = dto.Email.Trim();
+        // ==========================================
+        // ATUALIZAR EMPRESA
+        // ==========================================
 
-        empresa.InscricaoEstadual = LimparTexto(
-            dto.InscricaoEstadual
-        );
+        empresa.NomeFantasia =
+            dto.NomeFantasia.Trim();
 
-        empresa.Telefone = LimparTexto(
-            dto.Telefone
-        );
+        empresa.RazaoSocial =
+            LimparTexto(dto.RazaoSocial);
 
-        empresa.Celular = LimparTexto(
-            dto.Celular
-        );
+        empresa.CNPJ =
+            cnpj;
 
-        empresa.CEP = NormalizarCep(
-            dto.CEP
-        );
+        empresa.Email =
+            dto.Email.Trim();
 
-        empresa.Estado = LimparTexto(
-            dto.Estado
-        );
+        empresa.InscricaoEstadual =
+            LimparTexto(dto.InscricaoEstadual);
 
-        empresa.Cidade = LimparTexto(
-            dto.Cidade
-        );
+        empresa.Telefone =
+            LimparTexto(dto.Telefone);
 
-        empresa.Bairro = LimparTexto(
-            dto.Bairro
-        );
+        empresa.Celular =
+            LimparTexto(dto.Celular);
 
-        empresa.Logradouro = LimparTexto(
-            dto.Logradouro
-        );
+        empresa.CEP =
+            NormalizarCep(dto.CEP);
 
-        empresa.Numero = LimparTexto(
-            dto.Numero
-        );
+        empresa.Estado =
+            LimparTexto(dto.Estado);
 
-        empresa.Complemento = LimparTexto(
-            dto.Complemento
-        );
+        empresa.Cidade =
+            LimparTexto(dto.Cidade);
 
-        empresa.PlanoId = dto.PlanoId;
+        empresa.Bairro =
+            LimparTexto(dto.Bairro);
 
-        empresa.DataAtualizacao = DateTime.UtcNow;
+        empresa.Logradouro =
+            LimparTexto(dto.Logradouro);
+
+        empresa.Numero =
+            LimparTexto(dto.Numero);
+
+        empresa.Complemento =
+            LimparTexto(dto.Complemento);
+
+        empresa.PlanoId =
+            dto.PlanoId;
+
+        empresa.TipoEmpresaId =
+            dto.TipoEmpresaId;
+
+        empresa.DataAtualizacao =
+            DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
         return MapearEmpresa(empresa);
     }
 
+
     public async Task<bool> DesativarEmpresa(int id)
     {
         var empresa = await _context.Empresas
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x =>
+                x.Id == id);
 
         if (empresa is null)
         {
@@ -289,19 +359,23 @@ public class EmpresaService : IEmpresaService
 
         empresa.Ativo = false;
 
-        empresa.Status = StatusEmpresa.Suspensa;
+        empresa.Status =
+            StatusEmpresa.Suspensa;
 
-        empresa.DataAtualizacao = DateTime.UtcNow;
+        empresa.DataAtualizacao =
+            DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
         return true;
     }
 
+
     public async Task<bool> AtivarEmpresa(int id)
     {
         var empresa = await _context.Empresas
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x =>
+                x.Id == id);
 
         if (empresa is null)
         {
@@ -315,14 +389,21 @@ public class EmpresaService : IEmpresaService
 
         empresa.Ativo = true;
 
-        empresa.Status = StatusEmpresa.Ativa;
+        empresa.Status =
+            StatusEmpresa.Ativa;
 
-        empresa.DataAtualizacao = DateTime.UtcNow;
+        empresa.DataAtualizacao =
+            DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
         return true;
     }
+
+
+    // ==========================================
+    // VERIFICAR CNPJ
+    // ==========================================
 
     private async Task<bool> CnpjExiste(
         string cnpj,
@@ -335,6 +416,11 @@ public class EmpresaService : IEmpresaService
                 (!empresaId.HasValue ||
                  x.Id != empresaId.Value));
     }
+
+
+    // ==========================================
+    // NORMALIZAR DOCUMENTO
+    // ==========================================
 
     private static string NormalizarDocumento(
         string? documento)
@@ -350,6 +436,11 @@ public class EmpresaService : IEmpresaService
                 .ToArray()
         );
     }
+
+
+    // ==========================================
+    // NORMALIZAR CEP
+    // ==========================================
 
     private static string? NormalizarCep(
         string? cep)
@@ -370,6 +461,11 @@ public class EmpresaService : IEmpresaService
             : resultado;
     }
 
+
+    // ==========================================
+    // LIMPAR TEXTO
+    // ==========================================
+
     private static string? LimparTexto(
         string? valor)
     {
@@ -381,6 +477,11 @@ public class EmpresaService : IEmpresaService
         return valor.Trim();
     }
 
+
+    // ==========================================
+    // MAPEAR EMPRESA
+    // ==========================================
+
     private static EmpresaResponseDto MapearEmpresa(
         Empresa empresa)
     {
@@ -388,42 +489,62 @@ public class EmpresaService : IEmpresaService
         {
             Id = empresa.Id,
 
-            NomeFantasia = empresa.NomeFantasia,
+            NomeFantasia =
+                empresa.NomeFantasia,
 
-            RazaoSocial = empresa.RazaoSocial,
+            RazaoSocial =
+                empresa.RazaoSocial,
 
-            CNPJ = empresa.CNPJ,
+            CNPJ =
+                empresa.CNPJ,
 
             InscricaoEstadual =
                 empresa.InscricaoEstadual,
 
-            Email = empresa.Email,
+            Email =
+                empresa.Email,
 
-            Telefone = empresa.Telefone,
+            Telefone =
+                empresa.Telefone,
 
-            Celular = empresa.Celular,
+            Celular =
+                empresa.Celular,
 
-            CEP = empresa.CEP,
+            CEP =
+                empresa.CEP,
 
-            Estado = empresa.Estado,
+            Estado =
+                empresa.Estado,
 
-            Cidade = empresa.Cidade,
+            Cidade =
+                empresa.Cidade,
 
-            Bairro = empresa.Bairro,
+            Bairro =
+                empresa.Bairro,
 
-            Logradouro = empresa.Logradouro,
+            Logradouro =
+                empresa.Logradouro,
 
-            Numero = empresa.Numero,
+            Numero =
+                empresa.Numero,
 
-            Complemento = empresa.Complemento,
+            Complemento =
+                empresa.Complemento,
 
-            PlanoId = empresa.PlanoId,
+            PlanoId =
+                empresa.PlanoId,
 
-            Ativo = empresa.Ativo,
+            TipoEmpresaId =
+                empresa.TipoEmpresaId,
 
-            DataCadastro = empresa.DataCadastro,
+            Ativo =
+                empresa.Ativo,
 
-            DataAtualizacao = empresa.DataAtualizacao
+            DataCadastro =
+                empresa.DataCadastro,
+
+            DataAtualizacao =
+                empresa.DataAtualizacao
         };
     }
 }

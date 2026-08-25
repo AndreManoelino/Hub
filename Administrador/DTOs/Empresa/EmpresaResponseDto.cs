@@ -47,4 +47,6 @@ public class EmpresaResponseDto
     public DateTime DataCadastro { get; set; }
 
     public DateTime? DataAtualizacao { get; set; }
+    public int TipoEmpresaId { get; set; }
+    public string? TipoEmpresa {get; set;}
 }

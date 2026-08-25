@@ -31,4 +31,5 @@ public class AtualizarEmpresaDto
     public string? Complemento { get; set; }
 
     public int PlanoId { get; set; }
+    public int TipoEmpresaId { get; set; }
 }

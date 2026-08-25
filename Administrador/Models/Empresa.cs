@@ -1,3 +1,4 @@
+
 using System.ComponentModel.DataAnnotations;
 using ControllHub.Administrador.Enums;
 
@@ -53,9 +54,16 @@ public class Empresa
     [MaxLength(100)]
     public string? Complemento { get; set; }
 
+    // Plano contratado pela empresa
     public int PlanoId { get; set; }
 
     public Plano Plano { get; set; } = null!;
+
+    // Tipo da empresa
+    [Required]
+    public int TipoEmpresaId { get; set; }
+
+    public TipoEmpresa TipoEmpresa { get; set; } = null!;
 
     public StatusEmpresa Status { get; set; } = StatusEmpresa.Ativa;
 

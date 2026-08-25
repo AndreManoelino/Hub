@@ -108,7 +108,18 @@ export async function listarEmpresas() {
     }
   );
 }
+/* =========================================================
+   LISTAR TIPOS DE EMPRESA
+========================================================= */
 
+export async function listarTiposEmpresa() {
+  return requisicaoEmpresa(
+    "/api/administrador/tipos-empresa",
+    {
+      method: "GET",
+    }
+  );
+}
 
 /* =========================================================
    BUSCAR EMPRESA POR ID
