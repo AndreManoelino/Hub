@@ -11,18 +11,26 @@ public class ControllHubContext : DbContext
     {
     }
 
+    // ============================================================
+    // DBSETS
+    // ============================================================
+
     public DbSet<Empresa> Empresas => Set<Empresa>();
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<Plano> Planos => Set<Plano>();
+    public DbSet<PlanoValor> PlanosValores => Set<PlanoValor>();
     public DbSet<TipoEmpresa> TiposEmpresa => Set<TipoEmpresa>();
+    public DbSet<Assinatura> Assinaturas => Set<Assinatura>();
+    public DbSet<Fatura> Faturas => Set<Fatura>();
+    public DbSet<Pagamento> Pagamentos => Set<Pagamento>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // ==========================================
+        // ========================================================
         // EMPRESA
-        // ==========================================
+        // ========================================================
 
         modelBuilder.Entity<Empresa>(entity =>
         {
@@ -38,6 +46,9 @@ public class ControllHubContext : DbContext
             entity.Property(e => e.CNPJ)
                 .HasMaxLength(14)
                 .IsRequired();
+
+            entity.Property(e => e.InscricaoEstadual)
+                .HasMaxLength(20);
 
             entity.Property(e => e.Email)
                 .HasMaxLength(150)
@@ -70,33 +81,29 @@ public class ControllHubContext : DbContext
             entity.Property(e => e.Complemento)
                 .HasMaxLength(100);
 
-            // ==========================================
-            // PLANO
-            // ==========================================
+            entity.Property(e => e.PlanoId)
+                .IsRequired();
+
+            entity.Property(e => e.TipoEmpresaId)
+                .IsRequired();
 
             entity.HasOne(e => e.Plano)
                 .WithMany(p => p.Empresas)
                 .HasForeignKey(e => e.PlanoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // ==========================================
-            // TIPO DA EMPRESA
-            // ==========================================
-
             entity.HasOne(e => e.TipoEmpresa)
                 .WithMany(t => t.Empresas)
                 .HasForeignKey(e => e.TipoEmpresaId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // CNPJ da empresa é único
             entity.HasIndex(e => e.CNPJ)
                 .IsUnique();
         });
 
-
-        // ==========================================
+        // ========================================================
         // USUARIO
-        // ==========================================
+        // ========================================================
 
         modelBuilder.Entity<Usuario>(entity =>
         {
@@ -117,17 +124,11 @@ public class ControllHubContext : DbContext
             entity.Property(u => u.SenhaHash)
                 .IsRequired();
 
-            // CPF único no sistema
             entity.HasIndex(u => u.CPF)
                 .IsUnique();
 
-            // E-mail único no sistema
             entity.HasIndex(u => u.Email)
                 .IsUnique();
-
-            // ==========================================
-            // RELACIONAMENTO COM EMPRESA
-            // ==========================================
 
             entity.HasOne(u => u.Empresa)
                 .WithMany(e => e.Usuarios)
@@ -136,10 +137,9 @@ public class ControllHubContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
-
-        // ==========================================
+        // ========================================================
         // PLANO
-        // ==========================================
+        // ========================================================
 
         modelBuilder.Entity<Plano>(entity =>
         {
@@ -155,14 +155,42 @@ public class ControllHubContext : DbContext
             entity.Property(p => p.ValorMensal)
                 .HasPrecision(18, 2);
 
+            entity.Property(p => p.LimiteUsuarios);
+
+            entity.Property(p => p.LimiteAlunos);
+
+            entity.Property(p => p.LimiteUnidades);
+
             entity.HasIndex(p => p.Nome)
                 .IsUnique();
         });
 
+        // ========================================================
+        // PLANO VALOR
+        // ========================================================
 
-        // ==========================================
+        modelBuilder.Entity<PlanoValor>(entity =>
+        {
+            entity.HasKey(pv => pv.Id);
+
+            entity.Property(pv => pv.ValorMensal)
+                .HasPrecision(18, 2);
+
+            entity.Property(pv => pv.PercentualReajuste)
+                .HasPrecision(5, 2);
+
+            entity.Property(pv => pv.DataInicioVigencia)
+                .IsRequired();
+
+            entity.HasOne(pv => pv.Plano)
+                .WithMany(p => p.Valores)
+                .HasForeignKey(pv => pv.PlanoId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // ========================================================
         // TIPO EMPRESA
-        // ==========================================
+        // ========================================================
 
         modelBuilder.Entity<TipoEmpresa>(entity =>
         {
@@ -179,10 +207,103 @@ public class ControllHubContext : DbContext
             entity.Property(t => t.Descricao)
                 .HasMaxLength(500);
 
-            // Código do tipo de empresa é único
             entity.HasIndex(t => t.Codigo)
                 .IsUnique();
         });
+
+        // ========================================================
+        // ASSINATURA
+        // ========================================================
+
+        modelBuilder.Entity<Assinatura>(entity =>
+        {
+            entity.HasKey(a => a.Id);
+
+            entity.Property(a => a.ValorMensal)
+                .HasPrecision(18, 2);
+
+            entity.Property(a => a.PercentualReajustAnual)
+                .HasPrecision(5, 2);
+
+            entity.Property(a => a.MotivoCancelamento)
+                .HasMaxLength(500);
+
+            entity.HasOne(a => a.Empresa)
+                .WithMany()
+                .HasForeignKey(a => a.empresaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(a => a.Plano)
+                .WithMany()
+                .HasForeignKey(a => a.PlanoId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // ========================================================
+        // FATURA
+        // ========================================================
+
+        modelBuilder.Entity<Fatura>(entity =>
+        {
+            entity.HasKey(f => f.Id);
+
+            entity.Property(f => f.ValorMensal)
+                .HasPrecision(18, 2);
+
+            entity.Property(f => f.ValorProporcional)
+                .HasPrecision(18, 2);
+
+            entity.Property(f => f.ValorTotal)
+                .HasPrecision(18, 2);
+
+            entity.Property(f => f.Observacao)
+                .HasMaxLength(500);
+
+            entity.HasOne(f => f.Empresa)
+                .WithMany()
+                .HasForeignKey(f => f.EmpresaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(f => f.Assinatura)
+                .WithMany()
+                .HasForeignKey(f => f.AssinaturaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(f => f.Plano)
+                .WithMany()
+                .HasForeignKey(f => f.PlanoId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // ========================================================
+        // PAGAMENTO
+        // ========================================================
+
+        modelBuilder.Entity<Pagamento>(entity =>
+        {
+            entity.HasKey(p => p.Id);
+
+            entity.Property(p => p.ValorPago)
+                .HasPrecision(18, 2);
+
+            entity.Property(p => p.IdTransacao)
+                .HasMaxLength(200);
+
+            entity.Property(p => p.CodigoPix)
+                .HasMaxLength(500);
+
+            entity.Property(p => p.Observacao)
+                .HasMaxLength(500);
+
+            entity.HasOne(p => p.Empresa)
+                .WithMany()
+                .HasForeignKey(p => p.EmpresaId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(p => p.Fatura)
+                .WithMany()
+                .HasForeignKey(p => p.FaturaId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
     }
 }
-

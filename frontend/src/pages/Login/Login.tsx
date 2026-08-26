@@ -1,6 +1,9 @@
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fazerLogin } from "../../services/api";
+import {
+  fazerLogin,
+  buscarEmpresaPorId,
+} from "../../services/api";
 import "./Login.css";
 
 export default function Login() {
@@ -51,6 +54,108 @@ export default function Login() {
       }
 
       // ==============================
+      // PERFIL
+      // ==============================
+
+      const perfil = Number(usuario.perfil);
+
+      // ==============================
+      // ADMINISTRADOR DO SISTEMA
+      // ==============================
+
+      if (perfil === 1) {
+        localStorage.setItem(
+          "token",
+          usuario.token
+        );
+
+        localStorage.setItem(
+          "usuario",
+          JSON.stringify(usuario)
+        );
+
+        localStorage.setItem(
+          "usuarioId",
+          String(usuario.usuarioId)
+        );
+
+        localStorage.setItem(
+          "perfil",
+          String(usuario.perfil)
+        );
+
+        localStorage.removeItem("empresaId");
+        localStorage.removeItem("nomeEmpresa");
+        localStorage.removeItem("tipoEmpresa");
+
+        navigate("/administrador", {
+          replace: true,
+        });
+
+        return;
+      }
+
+      // ==============================
+      // USUÁRIO DE EMPRESA
+      // ==============================
+
+      if (
+        usuario.empresaId === null ||
+        usuario.empresaId === undefined
+      ) {
+        throw new Error(
+          "Este usuário não está vinculado a uma empresa."
+        );
+      }
+
+      const empresaId = Number(usuario.empresaId);
+
+      if (!empresaId || empresaId <= 0) {
+        throw new Error(
+          "A empresa vinculada ao usuário é inválida."
+        );
+      }
+
+      // ==============================
+      // BUSCAR EMPRESA
+      // ==============================
+
+      const empresa = await buscarEmpresaPorId(
+        empresaId
+      );
+
+      if (!empresa) {
+        throw new Error(
+          "Não foi possível localizar a empresa deste usuário."
+        );
+      }
+
+      // ==============================
+      // TIPO DA EMPRESA
+      // ==============================
+
+      const tipoEmpresa =
+        empresa.tipoEmpresa ??
+        empresa.TipoEmpresa ??
+        empresa.tipo ??
+        empresa.Tipo;
+
+      if (
+        tipoEmpresa === null ||
+        tipoEmpresa === undefined ||
+        String(tipoEmpresa).trim() === ""
+      ) {
+        throw new Error(
+          "O tipo da empresa não foi identificado."
+        );
+      }
+
+      const tipoEmpresaNormalizado =
+        String(tipoEmpresa)
+          .trim()
+          .toLowerCase();
+
+      // ==============================
       // SALVAR TOKEN
       // ==============================
 
@@ -90,96 +195,88 @@ export default function Login() {
       // SALVAR EMPRESA
       // ==============================
 
-      if (
-        usuario.empresaId !== null &&
-        usuario.empresaId !== undefined
-      ) {
-        localStorage.setItem(
-          "empresaId",
-          String(usuario.empresaId)
-        );
-      } else {
-        localStorage.removeItem("empresaId");
-      }
+      localStorage.setItem(
+        "empresaId",
+        String(empresaId)
+      );
 
       // ==============================
       // SALVAR NOME DA EMPRESA
       // ==============================
 
+      const nomeEmpresa =
+        empresa.nomeFantasia ??
+        empresa.NomeFantasia ??
+        usuario.nomeEmpresa;
+
       if (
-        usuario.nomeEmpresa !== null &&
-        usuario.nomeEmpresa !== undefined &&
-        usuario.nomeEmpresa.trim() !== ""
+        nomeEmpresa !== null &&
+        nomeEmpresa !== undefined &&
+        String(nomeEmpresa).trim() !== ""
       ) {
         localStorage.setItem(
           "nomeEmpresa",
-          usuario.nomeEmpresa
+          String(nomeEmpresa)
         );
       } else {
         localStorage.removeItem("nomeEmpresa");
       }
 
       // ==============================
-      // PERFIL
+      // SALVAR TIPO DA EMPRESA
       // ==============================
 
-      const perfil = Number(usuario.perfil);
+      localStorage.setItem(
+        "tipoEmpresa",
+        String(tipoEmpresa)
+      );
 
       // ==============================
-      // REDIRECIONAMENTO
+      // REDIRECIONAMENTO POR TIPO
       // ==============================
 
-      switch (perfil) {
-        case 1:
-          // Administrador do Sistema ControllHub
-          navigate("/administrador", {
+      if (
+        tipoEmpresaNormalizado === "academia"
+      ) {
+        navigate(
+          `/academia/${empresaId}`,
+          {
             replace: true,
-          });
-          break;
+          }
+        );
 
-        case 2:
-          // Dono da Empresa
-          navigate("/empresa", {
-            replace: true,
-          });
-          break;
-
-        case 3:
-          // Administrador da Empresa
-          navigate("/empresa/admin", {
-            replace: true,
-          });
-          break;
-
-        case 4:
-          // Profissional
-          navigate("/profissional", {
-            replace: true,
-          });
-          break;
-
-        case 5:
-          // Aluno
-          navigate("/aluno", {
-            replace: true,
-          });
-          break;
-
-        default:
-          // Remove autenticação caso o perfil
-          // não esteja configurado no sistema.
-          localStorage.removeItem("token");
-          localStorage.removeItem("usuario");
-          localStorage.removeItem("usuarioId");
-          localStorage.removeItem("perfil");
-          localStorage.removeItem("empresaId");
-          localStorage.removeItem("nomeEmpresa");
-
-          setErro(
-            "O perfil deste usuário não possui acesso configurado."
-          );
-          break;
+        return;
       }
+
+      if (
+        tipoEmpresaNormalizado === "barbearia"
+      ) {
+        navigate(
+          `/barbearia/${empresaId}`,
+          {
+            replace: true,
+          }
+        );
+
+        return;
+      }
+
+      // ==============================
+      // TIPO NÃO CONFIGURADO
+      // ==============================
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+      localStorage.removeItem("usuarioId");
+      localStorage.removeItem("perfil");
+      localStorage.removeItem("empresaId");
+      localStorage.removeItem("nomeEmpresa");
+      localStorage.removeItem("tipoEmpresa");
+
+      throw new Error(
+        `O tipo de empresa "${tipoEmpresa}" ainda não possui uma área configurada no sistema.`
+      );
+
     } catch (error) {
       console.error(
         "Erro ao realizar login:",
@@ -303,7 +400,7 @@ export default function Login() {
 
           </div>
 
-          {/* RODAPÉ DO SHOWCASE */}
+          {/* RODAPÉ */}
 
           <div className="showcase-footer">
 
